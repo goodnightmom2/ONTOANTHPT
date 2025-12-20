@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đề Thi Toán 12 - Trộn Đề Tự Động</title>
+    <style>
+        :root {
+            --primary: #007bff;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --dark: #343a40;
+            --bg: #f4f6f9;
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); color: var(--dark); margin: 0; padding: 20px; }
+        .container { max-width: 960px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        
+        /* Header */
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 30px; position: sticky; top: 0; background: #fff; z-index: 100; }
+        .timer-box { font-size: 1.4rem; font-weight: 700; color: #fff; background: var(--danger); padding: 8px 25px; border-radius: 50px; }
+        
+        /* Parts */
+        .part-header { background: var(--primary); color: #fff; padding: 12px 15px; border-radius: 6px; margin: 30px 0 20px 0; font-weight: bold; font-size: 1.1rem; }
+        
+        /* Question Card */
+        .question-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+        .q-text { font-weight: 600; margin-bottom: 15px; color: #2c3e50; }
+        .q-text strong { color: var(--primary); }
+
+        /* Options */
+        .option-item { display: flex; align-items: center; margin-bottom: 10px; padding: 8px 12px; border: 1px solid transparent; border-radius: 6px; cursor: pointer; transition: background 0.2s; }
+        .option-item:hover { background-color: #e9ecef; }
+        .option-item input { margin-right: 10px; transform: scale(1.2); }
+        
+        /* Tables */
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9rem; }
+        th, td { border: 1px solid #dee2e6; padding: 8px; text-align: center; }
+        th { background-color: #f8f9fa; }
+        .tf-row td { text-align: left; }
+        .tf-radio { text-align: center !important; width: 60px; }
+
+        /* Input Short Answer */
+        .short-input { padding: 8px 12px; border: 2px solid #dee2e6; border-radius: 4px; width: 180px; font-size: 1rem; }
+
+        /* Feedback Styles */
+        .feedback { display: none; margin-top: 15px; padding: 15px; background-color: #fff9db; border-left: 4px solid var(--warning); font-size: 0.95rem; border-radius: 4px; }
+        .correct-card { border: 1px solid #c3e6cb; background-color: #fafffb; }
+        .wrong-card { border: 1px solid #f5c6cb; background-color: #fffafa; }
+        .status-correct { color: var(--success); font-weight: bold; }
+        .status-wrong { color: var(--danger); font-weight: bold; text-decoration: line-through; }
+
+        /* Footer */
+        .btn-submit { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 1.2rem; font-weight: bold; cursor: pointer; margin-top: 30px; transition: 0.3s; }
+        .btn-submit:hover { background: #0056b3; }
+        .score-box { display: none; margin-top: 30px; text-align: center; padding: 20px; background: #d4edda; border-radius: 8px; color: #155724; font-size: 1.5rem; font-weight: bold; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div>
+            <h2 style="margin:0">ĐỀ THI TOÁN 12 (TRỘN NGẪU NHIÊN)</h2>
+            <p style="margin:5px 0 0 0; color:#666">Thời gian: 60 phút | Tự động đảo đề</p>
+        </div>
+        <div class="timer-box" id="timer">60:00</div>
+    </div>
+
+    <div id="quiz-container">
+        </div>
+
+    <button type="button" class="btn-submit" onclick="submitQuiz()">NỘP BÀI</button>
+    <div class="score-box" id="result-box"></div>
+</div>
+
+<script>
+    // --- DỮ LIỆU CÂU HỎI (DATA) ---
+    // Phần 1: Trắc nghiệm (content: nội dung đáp án, isCorrect: đúng hay sai)
+    const rawPart1 = [
+        {
+            id: "p1_1",
+            text: "Cho hàm số y = f(x) có bảng biến thiên: y' > 0 trên (-∞; 1), y' < 0 trên (1; 3). Hàm số đạt cực đại tại điểm nào?",
+            options: [
+                { content: "x = 1", isCorrect: true },
+                { content: "x = 3", isCorrect: false },
+                { content: "x = 0", isCorrect: false },
+                { content: "x = -1", isCorrect: false }
+            ],
+            explain: "Đạo hàm đổi dấu từ dương sang âm khi đi qua x = 1, nên x = 1 là điểm cực đại."
+        },
+        {
+            id: "p1_2",
+            text: "Tiệm cận xiên của đồ thị hàm số y = x + 2 + 1/(x-1) là đường thẳng:",
+            options: [
+                { content: "y = x + 2", isCorrect: true },
+                { content: "y = x - 1", isCorrect: false },
+                { content: "y = x", isCorrect: false },
+                { content: "x = 1", isCorrect: false }
+            ],
+            explain: "Khi x → ∞, phần phân thức 1/(x-1) → 0, nên tiệm cận xiên là y = x + 2."
+        },
+        {
+            id: "p1_3",
+            text: "Trong không gian Oxyz, cho vector <b>u</b> = (1; -2; 3) và <b>v</b> = (2; 1; -1). Tọa độ vector <b>a</b> = <b>u</b> + <b>v</b> là:",
+            options: [
+                { content: "(3; -1; 2)", isCorrect: true },
+                { content: "(3; 1; 2)", isCorrect: false },
+                { content: "(-1; -3; 4)", isCorrect: false },
+                { content: "(1; 3; -4)", isCorrect: false }
+            ],
+            explain: "Cộng tọa độ tương ứng: (1+2; -2+1; 3-1) = (3; -1; 2)."
+        },
+        {
+            id: "p1_4",
+            text: "Cho mẫu số liệu ghép nhóm chiều cao HS:<br><table><tr><th>Nhóm</th><th>[150;155)</th><th>[155;160)</th><th>[160;165)</th><th>[165;170)</th></tr><tr><td>Tần số</td><td>4</td><td>10</td><td>15</td><td>8</td></tr></table>Nhóm chứa mốt là:",
+            options: [
+                { content: "[160; 165)", isCorrect: true },
+                { content: "[155; 160)", isCorrect: false },
+                { content: "[165; 170)", isCorrect: false },
+                { content: "[150; 155)", isCorrect: false }
+            ],
+            explain: "Nhóm [160; 165) có tần số lớn nhất (15) nên là nhóm chứa mốt."
+        },
+        {
+            id: "p1_5",
+            text: "(Thực tế) Doanh thu R(x) = -x³ + 30x² + 1000 (0 ≤ x ≤ 25). Doanh thu cao nhất khi chi phí quảng cáo x bằng:",
+            options: [
+                { content: "20 triệu", isCorrect: true },
+                { content: "15 triệu", isCorrect: false },
+                { content: "10 triệu", isCorrect: false },
+                { content: "25 triệu", isCorrect: false }
+            ],
+            explain: "R' = -3x² + 60x. R'=0 ⇔ x=0 hoặc x=20. Lập BBT, max tại x=20."
+        },
+        {
+            id: "p1_6",
+            text: "Hình chiếu vuông góc của M(2; -1; 5) lên mặt phẳng (Oxy) là:",
+            options: [
+                { content: "(2; -1; 0)", isCorrect: true },
+                { content: "(2; 0; 5)", isCorrect: false },
+                { content: "(0; -1; 5)", isCorrect: false },
+                { content: "(0; 0; 5)", isCorrect: false }
+            ],
+            explain: "Chiếu lên (Oxy) thì giữ x, y, cho z = 0."
+        },
+        {
+            id: "p1_7",
+            text: "Đồ thị hàm số nào có dạng chữ N ngược (bậc 3, a âm)?",
+            options: [
+                { content: "y = -x³ + 3x", isCorrect: true },
+                { content: "y = x³ - 3x", isCorrect: false },
+                { content: "y = x⁴ - 2x²", isCorrect: false },
+                { content: "y = -x⁴ + 2x²", isCorrect: false }
+            ],
+            explain: "Dạng chữ N ngược ứng với hàm bậc 3 có hệ số a < 0."
+        },
+        {
+            id: "p1_8",
+            text: "GTLN của f(x) = x⁴ - 2x² + 3 trên đoạn [0; 2] là:",
+            options: [
+                { content: "11", isCorrect: true },
+                { content: "3", isCorrect: false },
+                { content: "2", isCorrect: false },
+                { content: "10", isCorrect: false }
+            ],
+            explain: "f(0)=3, f(1)=2 (min), f(2)=11 (max)."
+        },
+        {
+            id: "p1_9",
+            text: "Công thức tính giá trị đại diện xᵢ của nhóm [a; b) là:",
+            options: [
+                { content: "(a + b) / 2", isCorrect: true },
+                { content: "a + b", isCorrect: false },
+                { content: "b - a", isCorrect: false },
+                { content: "a * b", isCorrect: false }
+            ],
+            explain: "Giá trị đại diện là trung bình cộng hai đầu mút."
+        },
+        {
+            id: "p1_10",
+            text: "Trong Oxyz, trung điểm I của A(2;0;0) và B(0;4;6) là:",
+            options: [
+                { content: "(1; 2; 3)", isCorrect: true },
+                { content: "(2; 4; 6)", isCorrect: false },
+                { content: "(1; 0; 3)", isCorrect: false },
+                { content: "(2; 2; 3)", isCorrect: false }
+            ],
+            explain: "I = ((2+0)/2; (0+4)/2; (0+6)/2) = (1; 2; 3)."
+        }
+    ];
+
+    // Phần 2: Đúng Sai
+    const rawPart2 = [
+        {
+            id: "p2_1",
+            text: "Cho hàm số y = (2x - 1) / (x + 1).",
+            subQuestions: [
+                { id: "a", text: "Tập xác định D = R \\ {-1}.", correct: true },
+                { id: "b", text: "Đạo hàm y' = 3 / (x + 1)².", correct: true },
+                { id: "c", text: "Hàm số nghịch biến trên các khoảng xác định.", correct: false }, // Sai vì y'>0 => Đồng biến
+                { id: "d", text: "Tiệm cận ngang là y = 2.", correct: true }
+            ],
+            explain: "c sai vì y' > 0 nên hàm số đồng biến."
+        },
+        {
+            id: "p2_2",
+            text: "Hình hộp chữ nhật ABCD.A'B'C'D' có A trùng gốc O, B(2;0;0), D(0;3;0), A'(0;0;4).",
+            subQuestions: [
+                { id: "a", text: "Tọa độ điểm C' là (2; 3; 4).", correct: true },
+                { id: "b", text: "Độ dài AC' bằng √29.", correct: true },
+                { id: "c", text: "Vector AB vuông góc với Vector AD.", correct: true },
+                { id: "d", text: "Điểm M(1; 1.5; 2) là tâm hình hộp.", correct: true }
+            ],
+            explain: "Các ý đều đúng theo tính chất hình hộp chữ nhật gắn hệ trục."
+        },
+        {
+            id: "p2_3",
+            text: "Thống kê lương 50 nhân viên:<br><table><tr><th>Lương</th><th>[5;10)</th><th>[10;15)</th><th>[15;20)</th><th>[20;25)</th><th>[25;30]</th></tr><tr><td>Số NV</td><td>5</td><td>10</td><td>20</td><td>10</td><td>5</td></tr></table>",
+            subQuestions: [
+                { id: "a", text: "Cỡ mẫu n = 50.", correct: true },
+                { id: "b", text: "Nhóm chứa trung vị là [10; 15).", correct: false }, // Sai, n/2=25 thuộc [15;20)
+                { id: "c", text: "Q3 nằm trong nhóm [20; 25).", correct: true },
+                { id: "d", text: "Lương trung bình xấp xỉ 17.5 triệu.", correct: true }
+            ],
+            explain: "b sai: Tần số tích lũy đến nhóm [10;15) là 15, chưa đủ 25. Vị trí 25 thuộc nhóm [15;20)."
+        }
+    ];
+
+    // Phần 3: Trả lời ngắn
+    const rawPart3 = [
+        {
+            id: "p3_1",
+            text: "(Thực tế Oxyz) Phòng 8m x 6m x 4m. Quạt treo tâm trần. Gốc O là góc sàn. Khoảng cách từ quạt đến O là bao nhiêu mét? (Làm tròn 1 chữ số thập phân)",
+            correctVal: 6.4,
+            tolerance: 0.1,
+            explain: "Tâm trần I(4; 3; 4). OI = √(4²+3²+4²) = √41 ≈ 6.4m"
+        },
+        {
+            id: "p3_2",
+            text: "(Thực tế) Vật chuyển động s(t) = -t³ + 6t². Vận tốc lớn nhất là bao nhiêu (m/s)?",
+            correctVal: 12,
+            tolerance: 0,
+            explain: "v(t) = -3t² + 12t. Max tại t=2, v(2)=12."
+        },
+        {
+            id: "p3_3",
+            text: "(Thống kê) Điểm thi: Nhóm [6;7) có 8 HS, tổng các nhóm trước đó là 4 HS. Tổng HS là 40. Tính Q1 (Làm tròn 2 chữ số thập phân)?",
+            correctVal: 6.75,
+            tolerance: 0.01,
+            explain: "Vị trí Q1 = 10. Q1 = 6 + [(10-4)/8]*1 = 6.75"
+        }
+    ];
+
+    // --- CÁC HÀM XỬ LÝ (LOGIC) ---
+
+    // 1. Hàm trộn mảng (Fisher-Yates Shuffle)
+    function shuffleArray(array) {
+        let currentIndex = array.length, randomIndex;
+        // Copy mảng để không ảnh hưởng mảng gốc
+        let newArray = [...array]; 
+
+        while (currentIndex != 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            [newArray[currentIndex], newArray[randomIndex]] = [newArray[randomIndex], newArray[currentIndex]];
+        }
+        return newArray;
+    }
+
+    // Biến toàn cục lưu trữ thứ tự câu hỏi đã trộn để chấm điểm
+    let currentQuizData = {};
+
+    // 2. Hàm Render
+    function renderQuiz() {
+        const container = document.getElementById('quiz-container');
+        container.innerHTML = ''; // Xóa nội dung cũ
+
+        // TRỘN DỮ LIỆU
+        const shuffledP1 = shuffleArray(rawPart1);
+        const shuffledP2 = shuffleArray(rawPart2);
+        const shuffledP3 = shuffleArray(rawPart3);
+
+        // Lưu lại để chấm
+        currentQuizData = { p1: shuffledP1, p2: shuffledP2, p3: shuffledP3 };
+
+        // --- RENDER PHẦN 1 ---
+        let html = `<div class="part-header">PHẦN I. TRẮC NGHIỆM (10 Câu)</div>`;
+        shuffledP1.forEach((q, index) => {
+            // Trộn đáp án cho từng câu
+            let shuffledOptions = shuffleArray(q.options);
+            
+            let optionsHtml = '';
+            const labels = ['A', 'B', 'C', 'D'];
+            shuffledOptions.forEach((opt, idx) => {
+                optionsHtml += `
+                    <label class="option-item">
+                        <input type="radio" name="p1_${index}" value="${opt.isCorrect}">
+                        <span><b>${labels[idx]}.</b> ${opt.content}</span>
+                    </label>
+                `;
+            });
+
+            html += `
+                <div class="question-card" id="card_p1_${index}">
+                    <div class="q-text"><strong>Câu ${index + 1}:</strong> ${q.text}</div>
+                    <div class="options-group">${optionsHtml}</div>
+                    <div class="feedback" id="fb_p1_${index}">${q.explain}</div>
+                </div>
+            `;
+        });
+
+        // --- RENDER PHẦN 2 ---
+        html += `<div class="part-header">PHẦN II. ĐÚNG SAI (3 Câu)</div>`;
+        shuffledP2.forEach((q, index) => {
+            let subRows = '';
+            q.subQuestions.forEach((sub) => {
+                subRows += `
+                    <tr class="tf-row">
+                        <td>${sub.text}</td>
+                        <td class="tf-radio"><input type="radio" name="p2_${index}_${sub.id}" value="true"></td>
+                        <td class="tf-radio"><input type="radio" name="p2_${index}_${sub.id}" value="false"></td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                <div class="question-card" id="card_p2_${index}">
+                    <div class="q-text"><strong>Câu ${index + 1}:</strong> ${q.text}</div>
+                    <table>
+                        <tr><th>Mệnh đề</th><th class="tf-radio">Đúng</th><th class="tf-radio">Sai</th></tr>
+                        ${subRows}
+                    </table>
+                    <div class="feedback" id="fb_p2_${index}">${q.explain}</div>
+                </div>
+            `;
+        });
+
+        // --- RENDER PHẦN 3 ---
+        html += `<div class="part-header">PHẦN III. TRẢ LỜI NGẮN (3 Câu)</div>`;
+        shuffledP3.forEach((q, index) => {
+            html += `
+                <div class="question-card" id="card_p3_${index}">
+                    <div class="q-text"><strong>Câu ${index + 1}:</strong> ${q.text}</div>
+                    <input type="number" step="0.01" class="short-input" id="input_p3_${index}" placeholder="Nhập số...">
+                    <div class="feedback" id="fb_p3_${index}">Đáp án: <strong>${q.correctVal}</strong>. <br> ${q.explain}</div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+    }
+
+    // 3. Hàm Chấm Điểm
+    function submitQuiz() {
+        clearInterval(timerInterval); // Dừng đồng hồ
+        let score = 0;
+        let totalRawPoints = 0; // Để tính quy đổi về thang 10
+
+        // -- CHẤM PHẦN 1 --
+        currentQuizData.p1.forEach((q, index) => {
+            totalRawPoints += 1;
+            const selected = document.querySelector(`input[name="p1_${index}"]:checked`);
+            const feedback = document.getElementById(`fb_p1_${index}`);
+            const card = document.getElementById(`card_p1_${index}`);
+            
+            feedback.style.display = 'block'; // Hiện giải thích
+
+            if (selected && selected.value === "true") {
+                score += 1;
+                card.classList.add('correct-card');
+                selected.parentElement.innerHTML += ` <span class="status-correct">✔</span>`;
+            } else {
+                card.classList.add('wrong-card');
+                if(selected) selected.parentElement.innerHTML += ` <span class="status-wrong">✘</span>`;
+            }
+        });
+
+        // -- CHẤM PHẦN 2 --
+        currentQuizData.p2.forEach((q, index) => {
+            const card = document.getElementById(`card_p2_${index}`);
+            const feedback = document.getElementById(`fb_p2_${index}`);
+            feedback.style.display = 'block';
+
+            let allSubCorrect = true;
+            q.subQuestions.forEach(sub => {
+                totalRawPoints += 0.25;
+                const selected = document.querySelector(`input[name="p2_${index}_${sub.id}"]:checked`);
+                const userVal = selected ? (selected.value === 'true') : null;
+                
+                if (userVal === sub.correct) {
+                    score += 0.25;
+                } else {
+                    allSubCorrect = false;
+                }
+            });
+
+            if(allSubCorrect) card.classList.add('correct-card');
+            else card.classList.add('wrong-card');
+        });
+
+        // -- CHẤM PHẦN 3 --
+        currentQuizData.p3.forEach((q, index) => {
+            totalRawPoints += 1;
+            const input = document.getElementById(`input_p3_${index}`);
+            const card = document.getElementById(`card_p3_${index}`);
+            const feedback = document.getElementById(`fb_p3_${index}`);
+            feedback.style.display = 'block';
+
+            const userVal = parseFloat(input.value);
+            if (!isNaN(userVal) && Math.abs(userVal - q.correctVal) <= q.tolerance) {
+                score += 1;
+                card.classList.add('correct-card');
+                input.style.borderColor = 'green';
+            } else {
+                card.classList.add('wrong-card');
+                input.style.borderColor = 'red';
+            }
+        });
+
+        // HIỂN THỊ KẾT QUẢ
+        const resultBox = document.getElementById('result-box');
+        // Tổng điểm thô tối đa = 10 (P1) + 3 (P2) + 3 (P3) = 16
+        const finalScore = (score / 16) * 10;
+        
+        resultBox.style.display = 'block';
+        resultBox.innerHTML = `ĐIỂM SỐ: ${finalScore.toFixed(2)} / 10 <br><small>(Đúng ${score} phần trên tổng 16 phần điểm)</small>`;
+        
+        document.querySelector('.btn-submit').disabled = true;
+        document.querySelector('.btn-submit').innerText = "ĐÃ CÓ KẾT QUẢ";
+        resultBox.scrollIntoView({behavior: 'smooth'});
+    }
+
+    // 4. Đồng hồ đếm ngược
+    let timeSeconds = 60 * 60; // 60 phút
+    const timerEl = document.getElementById('timer');
+    let timerInterval;
+
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            const m = Math.floor(timeSeconds / 60);
+            let s = timeSeconds % 60;
+            s = s < 10 ? '0' + s : s;
+            timerEl.innerText = `${m}:${s}`;
+            timeSeconds--;
+
+            if (timeSeconds < 0) {
+                submitQuiz();
+                alert("Hết giờ làm bài!");
+            }
+        }, 1000);
+    }
+
+    // --- KHỞI CHẠY ---
+    window.onload = function() {
+        renderQuiz(); 
+        startTimer(); 
+    };
+
+</script>
+
+</body>
+</html>
