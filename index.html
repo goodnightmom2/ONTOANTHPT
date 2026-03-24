@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bài Kiểm Tra Trắc Nghiệm Đạo Hàm (15 Phút)</title>
+    <title>Đề Ôn Tập Đạo Hàm</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -12,8 +12,7 @@
             max-width: 900px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f4f7f6;
-            padding-top: 60px; /* Make room for sticky timer */
+            background-color: #f9f9f9;
         }
         h1 {
             text-align: center;
@@ -21,33 +20,62 @@
             border-bottom: 2px solid #3498db;
             padding-bottom: 10px;
         }
-        #timer-bar {
-            position: fixed;
+        
+        /* CSS cho đồng hồ và thanh công cụ */
+        #header-bar {
+            position: sticky;
             top: 0;
-            left: 0;
-            width: 100%;
-            background-color: #e74c3c;
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-            font-size: 1.5em;
-            font-weight: bold;
+            background: #fff;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border-radius: 8px;
+            margin-bottom: 20px;
         }
+        #timer {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        #submit-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.1em;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        #submit-btn:hover {
+            background-color: #2980b9;
+        }
+        #submit-btn:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        #result-text {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #27ae60;
+        }
+
         .question-block {
             background-color: #fff;
             border-radius: 8px;
             padding: 20px;
             margin-bottom: 25px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         .topic-title {
-            color: #2980b9;
+            color: #d35400;
             font-size: 1.1em;
             margin-top: 0;
             margin-bottom: 15px;
-            border-bottom: 1px dashed #eee;
+            border-bottom: 1px dashed #ccc;
             padding-bottom: 5px;
         }
         .question-text {
@@ -57,72 +85,61 @@
         .options {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            gap: 10px;
             list-style-type: none;
             padding: 0;
             margin-bottom: 15px;
         }
-        .options label {
+        
+        /* Chỉnh sửa hiển thị cho các lựa chọn */
+        .option-label {
             display: flex;
             align-items: center;
-            cursor: pointer;
             padding: 10px;
-            border: 1px solid #ddd;
+            background: #f1f2f6;
             border-radius: 5px;
-            transition: background-color 0.2s;
+            cursor: pointer;
+            transition: background 0.2s;
         }
-        .options label:hover {
-            background-color: #f1f8ff;
+        .option-label:hover {
+            background: #dfe4ea;
         }
-        .options input[type="radio"] {
+        .option-label input {
             margin-right: 10px;
             transform: scale(1.2);
         }
+        
+        /* Ẩn đáp án mặc định */
         .solution-box {
-            display: none; /* Ẩn lời giải lúc đầu */
-            background-color: #e8f8f5;
+            display: none;
+            background-color: #e8f6f3;
             border-left: 4px solid #1abc9c;
             padding: 15px;
             margin-top: 15px;
             border-radius: 0 4px 4px 0;
+            animation: fadeIn 0.5s ease-in;
         }
         .solution-title {
             color: #16a085;
             font-weight: bold;
             margin-top: 0;
         }
-        .submit-btn {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            font-size: 1.2em;
-            background-color: #27ae60;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 30px;
-            margin-bottom: 50px;
-            font-weight: bold;
-            transition: background-color 0.3s;
+        
+        .correct-answer { background-color: #d4edda !important; border: 1px solid #28a745; }
+        .wrong-answer { background-color: #f8d7da !important; border: 1px solid #dc3545; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-        .submit-btn:hover {
-            background-color: #219a52;
-        }
-        #result-display {
-            display: none;
-            text-align: center;
-            background-color: #f1c40f;
-            color: #2c3e50;
-            padding: 20px;
-            font-size: 1.5em;
-            font-weight: bold;
-            border-radius: 8px;
-            margin-bottom: 30px;
-        }
+
         @media (max-width: 600px) {
             .options {
                 grid-template-columns: 1fr;
+            }
+            #header-bar {
+                flex-direction: column;
+                gap: 10px;
             }
         }
     </style>
@@ -138,285 +155,240 @@
 </head>
 <body>
 
-    <div id="timer-bar">Thời gian còn lại: <span id="time">15:00</span></div>
+    <h1>ĐỀ LUYỆN TẬP CHUYÊN ĐỀ ĐẠO HÀM</h1>
 
-    <h1>BÀI KIỂM TRA ĐẠO HÀM</h1>
-    <p style="text-align: center; color: #7f8c8d;">Hãy chọn đáp án đúng nhất cho mỗi câu hỏi. Bài làm sẽ tự động nộp khi hết 15 phút.</p>
+    <div id="header-bar">
+        <div id="timer">Thời gian: 15:00</div>
+        <div id="result-text"></div>
+        <button id="submit-btn" onclick="submitQuiz()">Nộp Bài</button>
+    </div>
 
-    <div id="result-display"></div>
-
-    <form id="quiz-form">
-        <div class="question-block">
-            <h3 class="topic-title">Câu 1. Lý thuyết định nghĩa đạo hàm</h3>
-            <div class="question-text">
-                Cho hàm số $y=f(x)$ xác định trên $\mathbb{R}$ và thỏa mãn $\lim_{x\to 1}\frac{f(x)-f(1)}{x-1}=-2$. Giá trị của $f'(1)$ là:
-            </div>
-            <div class="options">
-                <label><input type="radio" name="q1" value="A"> A. $2$</label>
-                <label><input type="radio" name="q1" value="B"> B. $-2$</label>
-                <label><input type="radio" name="q1" value="C"> C. $0$</label>
-                <label><input type="radio" name="q1" value="D"> D. Không tồn tại</label>
-            </div>
-            <div class="solution-box" id="sol-q1">
-                <p class="solution-title">Đáp án: B</p>
-                <p><strong>Hướng dẫn giải:</strong><br>
-                Theo định nghĩa đạo hàm tại một điểm: $f'(x_0) = \lim_{x\to x_0}\frac{f(x)-f(x_0)}{x-x_0}$.<br>
-                Áp dụng với $x_0 = 1$, ta có $f'(1) = \lim_{x\to 1}\frac{f(x)-f(1)}{x-1} = -2$.</p>
-            </div>
+    <div class="question-block" id="block-q1">
+        <h3 class="topic-title">Câu 1. Lý thuyết định nghĩa đạo hàm (Công thức hoặc khái niệm cơ bản)</h3>
+        <div class="question-text">Cho hàm số $y=f(x)$ xác định trên $\mathbb{R}$ thỏa mãn $\lim_{x\to 3}\frac{f(x)-f(3)}{x-3}=2$. Khẳng định nào sau đây đúng?</div>
+        <div class="options">
+            <label class="option-label"><input type="radio" name="q1" value="A"> A. $f'(2)=3$.</label>
+            <label class="option-label"><input type="radio" name="q1" value="B"> B. $f'(x)=2$.</label>
+            <label class="option-label"><input type="radio" name="q1" value="C"> C. $f'(x)=3$.</label>
+            <label class="option-label"><input type="radio" name="q1" value="D"> D. $f'(3)=2$.</label>
         </div>
-
-        <div class="question-block">
-            <h3 class="topic-title">Câu 2. Tính đạo hàm hàm số hữu tỉ</h3>
-            <div class="question-text">
-                Đạo hàm của hàm số $y=\frac{2x+3}{x-1}$ tại điểm $x_0=2$ có giá trị bằng:
-            </div>
-            <div class="options">
-                <label><input type="radio" name="q2" value="A"> A. $-5$</label>
-                <label><input type="radio" name="q2" value="B"> B. $5$</label>
-                <label><input type="radio" name="q2" value="C"> C. $\frac{1}{2}$</label>
-                <label><input type="radio" name="q2" value="D"> D. $-1$</label>
-            </div>
-            <div class="solution-box" id="sol-q2">
-                <p class="solution-title">Đáp án: A</p>
-                <p><strong>Hướng dẫn giải:</strong><br>
-                Tập xác định $D = \mathbb{R} \setminus \{1\}$.<br>
-                Đạo hàm: $y' = \frac{2 \cdot (-1) - 3 \cdot 1}{(x-1)^2} = \frac{-5}{(x-1)^2}$.<br>
-                Thay $x_0 = 2$ ta được $y'(2) = \frac{-5}{(2-1)^2} = -5$.</p>
-            </div>
+        <div class="solution-box">
+            <p class="solution-title">Đáp án: D</p>
+            <p><strong>Hướng dẫn giải:</strong><br>Theo định nghĩa đạo hàm của hàm số tại một điểm: $f'(x_0) = \lim_{x\to x_0}\frac{f(x)-f(x_0)}{x-x_0}$.<br>Do đó: $\lim_{x\to 3}\frac{f(x)-f(3)}{x-3} = f'(3)$. Theo giả thiết giới hạn này bằng $2$, suy ra $f'(3)=2$.</p>
         </div>
+    </div>
 
-        <div class="question-block">
-            <h3 class="topic-title">Câu 3. Tính đạo hàm hàm mũ</h3>
-            <div class="question-text">
-                Hàm số $y = 5^x$ có đạo hàm là:
-            </div>
-            <div class="options">
-                <label><input type="radio" name="q3" value="A"> A. $y' = x \cdot 5^{x-1}$</label>
-                <label><input type="radio" name="q3" value="B"> B. $y' = \frac{5^x}{\ln 5}$</label>
-                <label><input type="radio" name="q3" value="C"> C. $y' = 5^x \ln 5$</label>
-                <label><input type="radio" name="q3" value="D"> D. $y' = 5^x$</label>
-            </div>
-            <div class="solution-box" id="sol-q3">
-                <p class="solution-title">Đáp án: C</p>
-                <p><strong>Hướng dẫn giải:</strong><br>
-                Áp dụng công thức đạo hàm cơ bản của hàm số mũ: $(a^x)' = a^x \ln a$.<br>
-                Với $a = 5$, ta có $y' = 5^x \ln 5$.</p>
-            </div>
+    <div class="question-block" id="block-q2">
+        <h3 class="topic-title">Câu 2. Tính đạo hàm hàm số hữu tỉ</h3>
+        <div class="question-text">Đạo hàm của hàm số $y=\frac{2x-1}{x+1}$ tại $x_0=3$ là</div>
+        <div class="options">
+            <label class="option-label"><input type="radio" name="q2" value="A"> A. $3$.</label>
+            <label class="option-label"><input type="radio" name="q2" value="B"> B. $2$.</label>
+            <label class="option-label"><input type="radio" name="q2" value="C"> C. $\frac{1}{13}$.</label>
+            <label class="option-label"><input type="radio" name="q2" value="D"> D. $\frac{3}{16}$.</label>
         </div>
-
-        <div class="question-block">
-            <h3 class="topic-title">Câu 4. Tính đạo hàm hàm lượng giác</h3>
-            <div class="question-text">
-                Đạo hàm của hàm số $y = \cos(2x)$ là:
-            </div>
-            <div class="options">
-                <label><input type="radio" name="q4" value="A"> A. $y' = \sin(2x)$</label>
-                <label><input type="radio" name="q4" value="B"> B. $y' = 2\sin(2x)$</label>
-                <label><input type="radio" name="q4" value="C"> C. $y' = -2\sin(2x)$</label>
-                <label><input type="radio" name="q4" value="D"> D. $y' = -\sin(2x)$</label>
-            </div>
-            <div class="solution-box" id="sol-q4">
-                <p class="solution-title">Đáp án: C</p>
-                <p><strong>Hướng dẫn giải:</strong><br>
-                Áp dụng công thức đạo hàm hàm hợp lượng giác: $(\cos u)' = -u' \sin u$.<br>
-                Với $u = 2x \Rightarrow u' = 2$.<br>
-                Vậy $y' = -2\sin(2x)$.</p>
-            </div>
+        <div class="solution-box">
+            <p class="solution-title">Đáp án: D</p>
+            <p><strong>Hướng dẫn giải:</strong><br>Áp dụng công thức đạo hàm nhanh $\left(\frac{ax+b}{cx+d}\right)' = \frac{ad-bc}{(cx+d)^2}$, ta có:<br>$y' = \frac{2 \cdot 1 - (-1) \cdot 1}{(x+1)^2} = \frac{3}{(x+1)^2}$.<br>Thay $x_0=3$ vào ta được: $y'(3) = \frac{3}{(3+1)^2} = \frac{3}{16}$.</p>
         </div>
+    </div>
 
-        <div class="question-block">
-            <h3 class="topic-title">Câu 5. Giải phương trình y'=0</h3>
-            <div class="question-text">
-                Cho hàm số $y = x^3 - 3x^2 + 2$. Tập nghiệm của phương trình $y' = 0$ là:
-            </div>
-            <div class="options">
-                <label><input type="radio" name="q5" value="A"> A. $\{0; 2\}$</label>
-                <label><input type="radio" name="q5" value="B"> B. $\{1; 2\}$</label>
-                <label><input type="radio" name="q5" value="C"> C. $\{-2; 0\}$</label>
-                <label><input type="radio" name="q5" value="D"> D. $\{0; 3\}$</label>
-            </div>
-            <div class="solution-box" id="sol-q5">
-                <p class="solution-title">Đáp án: A</p>
-                <p><strong>Hướng dẫn giải:</strong><br>
-                Ta có đạo hàm $y' = 3x^2 - 6x$.<br>
-                Giải phương trình $y' = 0 \Leftrightarrow 3x^2 - 6x = 0 \Leftrightarrow 3x(x - 2) = 0 \Leftrightarrow \left[ \begin{array}{l} x = 0 \\ x = 2 \end{array} \right.$.</p>
-            </div>
+    <div class="question-block" id="block-q3">
+        <h3 class="topic-title">Câu 3. Tính đạo hàm hàm mũ</h3>
+        <div class="question-text">Đạo hàm của hàm số $y=3^x$ là</div>
+        <div class="options">
+            <label class="option-label"><input type="radio" name="q3" value="A"> A. $y'=3^x.\ln x$.</label>
+            <label class="option-label"><input type="radio" name="q3" value="B"> B. $y'=3^x$.</label>
+            <label class="option-label"><input type="radio" name="q3" value="C"> C. $y'=x.3^{x-1}$.</label>
+            <label class="option-label"><input type="radio" name="q3" value="D"> D. $y'=3^x.\ln 3$.</label>
         </div>
-
-        <div class="question-block">
-            <h3 class="topic-title">Câu 6. Giải bất phương trình chứa đạo hàm</h3>
-            <div class="question-text">
-                Cho hàm số $f(x) = -x^3 + 3x$. Tập nghiệm của bất phương trình $f'(x) > 0$ là:
-            </div>
-            <div class="options">
-                <label><input type="radio" name="q6" value="A"> A. $(-\infty; -1) \cup (1; +\infty)$</label>
-                <label><input type="radio" name="q6" value="B"> B. $(-1; 1)$</label>
-                <label><input type="radio" name="q6" value="C"> C. $[-1; 1]$</label>
-                <label><input type="radio" name="q6" value="D"> D. $(0; +\infty)$</label>
-            </div>
-            <div class="solution-box" id="sol-q6">
-                <p class="solution-title">Đáp án: B</p>
-                <p><strong>Hướng dẫn giải:</strong><br>
-                Ta có $f'(x) = -3x^2 + 3$.<br>
-                $f'(x) > 0 \Leftrightarrow -3x^2 + 3 > 0 \Leftrightarrow x^2 < 1 \Leftrightarrow -1 < x < 1$.<br>
-                Vậy tập nghiệm là khoảng $(-1; 1)$.</p>
-            </div>
+        <div class="solution-box">
+            <p class="solution-title">Đáp án: D</p>
+            <p><strong>Hướng dẫn giải:</strong><br>Áp dụng công thức đạo hàm cơ bản của hàm số mũ: $(a^x)' = a^x \ln a$ (với $a>0, a \neq 1$).<br>Do đó, với $y=3^x$ ta có $y' = 3^x \ln 3$.</p>
         </div>
+    </div>
 
-        <div class="question-block">
-            <h3 class="topic-title">Câu 7. Đạo hàm hàm hợp</h3>
-            <div class="question-text">
-                Đạo hàm của hàm số $y = (x^2 + 2)^5$ là:
-            </div>
-            <div class="options">
-                <label><input type="radio" name="q7" value="A"> A. $y' = 5(x^2 + 2)^4$</label>
-                <label><input type="radio" name="q7" value="B"> B. $y' = 10x(x^2 + 2)^4$</label>
-                <label><input type="radio" name="q7" value="C"> C. $y' = 5x(x^2 + 2)^4$</label>
-                <label><input type="radio" name="q7" value="D"> D. $y' = 10(x^2 + 2)^4$</label>
-            </div>
-            <div class="solution-box" id="sol-q7">
-                <p class="solution-title">Đáp án: B</p>
-                <p><strong>Hướng dẫn giải:</strong><br>
-                Áp dụng công thức $(u^n)' = n \cdot u^{n-1} \cdot u'$ với $u = x^2 + 2$.<br>
-                $y' = 5(x^2 + 2)^4 \cdot (x^2 + 2)' = 5(x^2 + 2)^4 \cdot (2x) = 10x(x^2 + 2)^4$.</p>
-            </div>
+    <div class="question-block" id="block-q4">
+        <h3 class="topic-title">Câu 4. Tính đạo hàm hàm lượng giác</h3>
+        <div class="question-text">Đạo hàm của hàm số $y=\tan x$ là</div>
+        <div class="options">
+            <label class="option-label"><input type="radio" name="q4" value="A"> A. $y'=-\frac{1}{\cos^2 x}$.</label>
+            <label class="option-label"><input type="radio" name="q4" value="B"> B. $y'=\frac{1}{\cos^2 x}$.</label>
+            <label class="option-label"><input type="radio" name="q4" value="C"> C. $y'=\cot x$.</label>
+            <label class="option-label"><input type="radio" name="q4" value="D"> D. $y'=-\cot x$.</label>
         </div>
-
-        <div class="question-block">
-            <h3 class="topic-title">Câu 8. Phương trình tiếp tuyến</h3>
-            <div class="question-text">
-                Phương trình tiếp tuyến của đồ thị hàm số $y=x^3-3x+1$ tại điểm có hoành độ $x_0=2$ là:
-            </div>
-            <div class="options">
-                <label><input type="radio" name="q8" value="A"> A. $y = 9x - 15$</label>
-                <label><input type="radio" name="q8" value="B"> B. $y = 9x + 15$</label>
-                <label><input type="radio" name="q8" value="C"> C. $y = 9x - 21$</label>
-                <label><input type="radio" name="q8" value="D"> D. $y = -9x + 21$</label>
-            </div>
-            <div class="solution-box" id="sol-q8">
-                <p class="solution-title">Đáp án: A</p>
-                <p><strong>Hướng dẫn giải:</strong><br>
-                Với $x_0 = 2 \Rightarrow y_0 = 2^3 - 3(2) + 1 = 3$.<br>
-                Đạo hàm $y' = 3x^2 - 3 \Rightarrow$ Hệ số góc $k = y'(2) = 3(2^2) - 3 = 9$.<br>
-                Phương trình tiếp tuyến: $y = 9(x - 2) + 3 \Leftrightarrow y = 9x - 18 + 3 \Leftrightarrow y = 9x - 15$.</p>
-            </div>
+        <div class="solution-box">
+            <p class="solution-title">Đáp án: B</p>
+            <p><strong>Hướng dẫn giải:</strong><br>Đây là công thức đạo hàm cơ bản của hàm lượng giác cần ghi nhớ: $(\tan x)' = \frac{1}{\cos^2 x} = 1 + \tan^2 x$.</p>
         </div>
+    </div>
 
-        <div class="question-block">
-            <h3 class="topic-title">Câu 9. Ứng dụng đạo hàm trong Vật lý</h3>
-            <div class="question-text">
-                Một chất điểm chuyển động có phương trình quãng đường là $s(t) = t^3 - 3t^2 + 9t$ ($t$ tính bằng giây, $s$ tính bằng mét). Tính vận tốc của chất điểm tại thời điểm $t=2$ giây.
-            </div>
-            <div class="options">
-                <label><input type="radio" name="q9" value="A"> A. $9 \text{ m/s}$</label>
-                <label><input type="radio" name="q9" value="B"> B. $21 \text{ m/s}$</label>
-                <label><input type="radio" name="q9" value="C"> C. $3 \text{ m/s}$</label>
-                <label><input type="radio" name="q9" value="D"> D. $6 \text{ m/s}$</label>
-            </div>
-            <div class="solution-box" id="sol-q9">
-                <p class="solution-title">Đáp án: A</p>
-                <p><strong>Hướng dẫn giải:</strong><br>
-                Phương trình vận tốc: $v(t) = s'(t) = 3t^2 - 6t + 9$.<br>
-                Vận tốc tại $t=2$: $v(2) = 3(2^2) - 6(2) + 9 = 12 - 12 + 9 = 9 \text{ m/s}$.</p>
-            </div>
+    <div class="question-block" id="block-q5">
+        <h3 class="topic-title">Câu 5. Giải phương trình y'=0 với y là hàm hữu tỉ bậc 2 trên bậc 1</h3>
+        <div class="question-text">Cho hàm số $y = \frac{x^2 - x + 1}{x - 1}$. Tập nghiệm của phương trình $y' = 0$ là:</div>
+        <div class="options">
+            <label class="option-label"><input type="radio" name="q5" value="A"> A. $\{0; 2\}$</label>
+            <label class="option-label"><input type="radio" name="q5" value="B"> B. $\{0\}$</label>
+            <label class="option-label"><input type="radio" name="q5" value="C"> C. $\{2\}$</label>
+            <label class="option-label"><input type="radio" name="q5" value="D"> D. $\emptyset$</label>
         </div>
-
-        <div class="question-block">
-            <h3 class="topic-title">Câu 10. Đạo hàm hàm Logarit</h3>
-            <div class="question-text">
-                Đạo hàm của hàm số $y=\log_3(2x+1)$ là:
-            </div>
-            <div class="options">
-                <label><input type="radio" name="q10" value="A"> A. $y' = \frac{1}{(2x+1)\ln 3}$</label>
-                <label><input type="radio" name="q10" value="B"> B. $y' = \frac{2}{(2x+1)\ln 3}$</label>
-                <label><input type="radio" name="q10" value="C"> C. $y' = \frac{2\ln 3}{2x+1}$</label>
-                <label><input type="radio" name="q10" value="D"> D. $y' = \frac{1}{2x+1}$</label>
-            </div>
-            <div class="solution-box" id="sol-q10">
-                <p class="solution-title">Đáp án: B</p>
-                <p><strong>Hướng dẫn giải:</strong><br>
-                Áp dụng công thức đạo hàm hàm logarit hợp: $(\log_a u)' = \frac{u'}{u \ln a}$.<br>
-                Với $u = 2x+1 \Rightarrow u' = 2$, và $a = 3$.<br>
-                Ta có: $y' = \frac{2}{(2x+1)\ln 3}$.</p>
-            </div>
+        <div class="solution-box">
+            <p class="solution-title">Đáp án: A</p>
+            <p><strong>Hướng dẫn giải:</strong><br>Tập xác định: $D = \mathbb{R} \setminus \{1\}$.<br>Ta có: $y' = \frac{(x^2 - x + 1)'(x - 1) - (x^2 - x + 1)(x - 1)'}{(x - 1)^2}$<br>$y' = \frac{(2x - 1)(x - 1) - (x^2 - x + 1)}{(x - 1)^2}$<br>$y' = \frac{2x^2 - 3x + 1 - x^2 + x - 1}{(x - 1)^2} = \frac{x^2 - 2x}{(x - 1)^2}$.<br>Giải $y' = 0 \Leftrightarrow x^2 - 2x = 0 \Leftrightarrow \left[ \begin{array}{l} x = 0 \\ x = 2 \end{array} \right.$ (cả 2 nghiệm đều thỏa mãn điều kiện $x \neq 1$).</p>
         </div>
+    </div>
 
-        <button type="button" class="submit-btn" id="submitBtn" onclick="submitQuiz()">Nộp Bài</button>
-    </form>
+    <div class="question-block" id="block-q6">
+        <h3 class="topic-title">Câu 6. Giải bất phương trình</h3>
+        <div class="question-text">Cho hàm số $f(x)=x^3-3x^2-9x+5$. Tập nghiệm của bất phương trình $f'(x)>0$ là</div>
+        <div class="options">
+            <label class="option-label"><input type="radio" name="q6" value="A"> A. $(-\infty; -3) \cup (1; +\infty)$.</label>
+            <label class="option-label"><input type="radio" name="q6" value="B"> B. $(-\infty; -1) \cup (3; +\infty)$.</label>
+            <label class="option-label"><input type="radio" name="q6" value="C"> C. $(-3; 1)$.</label>
+            <label class="option-label"><input type="radio" name="q6" value="D"> D. $(-1; 3)$.</label>
+        </div>
+        <div class="solution-box">
+            <p class="solution-title">Đáp án: B</p>
+            <p><strong>Hướng dẫn giải:</strong><br>Ta có $f'(x) = 3x^2 - 6x - 9$.<br>Bất phương trình $f'(x) > 0 \Leftrightarrow 3x^2 - 6x - 9 > 0$.<br>Xét phương trình $3x^2 - 6x - 9 = 0 \Leftrightarrow x = -1$ hoặc $x = 3$.<br>Áp dụng quy tắc "Trong trái - Ngoài cùng" cho tam thức bậc hai, ta được: $\left[ \begin{array}{l} x < -1 \\ x > 3 \end{array} \right.$.<br>Vậy tập nghiệm là $(-\infty; -1) \cup (3; +\infty)$.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="block-q7">
+        <h3 class="topic-title">Câu 7. Đạo hàm hàm hợp</h3>
+        <div class="question-text">Đạo hàm của hàm số $y = (x^2 + x)^4$ là:</div>
+        <div class="options">
+            <label class="option-label"><input type="radio" name="q7" value="A"> A. $y' = 4(x^2+x)^3$.</label>
+            <label class="option-label"><input type="radio" name="q7" value="B"> B. $y' = 4(x^2+x)^4$.</label>
+            <label class="option-label"><input type="radio" name="q7" value="C"> C. $y' = 4(2x+1)(x^2+x)^3$.</label>
+            <label class="option-label"><input type="radio" name="q7" value="D"> D. $y' = (2x+1)(x^2+x)^3$.</label>
+        </div>
+        <div class="solution-box">
+            <p class="solution-title">Đáp án: C</p>
+            <p><strong>Hướng dẫn giải:</strong><br>Áp dụng công thức đạo hàm của hàm hợp: $(u^n)' = n \cdot u^{n-1} \cdot u'$ (với $u = x^2+x$).<br>Ta có: $y' = 4(x^2 + x)^3 \cdot (x^2 + x)'$.<br>Mà $(x^2 + x)' = 2x + 1$.<br>Vậy $y' = 4(x^2 + x)^3(2x + 1) = 4(2x+1)(x^2+x)^3$.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="block-q8">
+        <h3 class="topic-title">Câu 8. Phương trình tiếp tuyến biết hoành độ</h3>
+        <div class="question-text">Phương trình tiếp tuyến của đồ thị hàm số $y=x^3-3x$ tại điểm có hoành độ bằng $2$ là</div>
+        <div class="options">
+            <label class="option-label"><input type="radio" name="q8" value="A"> A. $y=-9x+16$.</label>
+            <label class="option-label"><input type="radio" name="q8" value="B"> B. $y=9x-16$.</label>
+            <label class="option-label"><input type="radio" name="q8" value="C"> C. $y=9x-20$.</label>
+            <label class="option-label"><input type="radio" name="q8" value="D"> D. $y=-9x+20$.</label>
+        </div>
+        <div class="solution-box">
+            <p class="solution-title">Đáp án: B</p>
+            <p><strong>Hướng dẫn giải:</strong><br>Gọi $x_0 = 2$ là hoành độ tiếp điểm. Tung độ tiếp điểm: $y_0 = 2^3 - 3.2 = 2$.<br>Đạo hàm: $y' = 3x^2 - 3$. Hệ số góc của tiếp tuyến: $k = y'(2) = 3.2^2 - 3 = 9$.<br>Phương trình tiếp tuyến có dạng: $y = f'(x_0)(x - x_0) + y_0$.<br>$\Rightarrow y = 9(x - 2) + 2 \Leftrightarrow y = 9x - 18 + 2 \Leftrightarrow y = 9x - 16$.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="block-q9">
+        <h3 class="topic-title">Câu 9. Tính vận tốc biết quãng đường</h3>
+        <div class="question-text">Một chất điểm chuyển động theo quy luật $s(t) = -t^3 + 6t^2$ với $t$ là thời gian tính từ lúc bắt đầu chuyển động, $s(t)$ là quãng đường đi được trong thời gian $t$. Tính vận tốc chất điểm đạt được tại thời điểm $t=2$.</div>
+        <div class="options">
+            <label class="option-label"><input type="radio" name="q9" value="A"> A. $\frac{21}{4}$.</label>
+            <label class="option-label"><input type="radio" name="q9" value="B"> B. $\frac{45}{4}$.</label>
+            <label class="option-label"><input type="radio" name="q9" value="C"> C. $9$.</label>
+            <label class="option-label"><input type="radio" name="q9" value="D"> D. $12$.</label>
+        </div>
+        <div class="solution-box">
+            <p class="solution-title">Đáp án: D</p>
+            <p><strong>Hướng dẫn giải:</strong><br>Vận tốc tức thời của chuyển động là đạo hàm của phương trình quãng đường: $v(t) = s'(t)$.<br>Ta có: $v(t) = (-t^3 + 6t^2)' = -3t^2 + 12t$.<br>Vận tốc tại thời điểm $t=2$ là: $v(2) = -3(2^2) + 12(2) = -12 + 24 = 12$.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="block-q10">
+        <h3 class="topic-title">Câu 10. Công thức tính chất của đạo hàm (Hàm Logarit)</h3>
+        <div class="question-text">Đạo hàm của hàm số $y=\log_2(x+1)$ là:</div>
+        <div class="options">
+            <label class="option-label"><input type="radio" name="q10" value="A"> A. $y'=\frac{\ln 2}{x+1}$.</label>
+            <label class="option-label"><input type="radio" name="q10" value="B"> B. $y'=\frac{1}{(x+1)\ln 2}$.</label>
+            <label class="option-label"><input type="radio" name="q10" value="C"> C. $y'=\frac{x+1}{\ln 2}$.</label>
+            <label class="option-label"><input type="radio" name="q10" value="D"> D. $y'=\frac{1}{x+1}$.</label>
+        </div>
+        <div class="solution-box">
+            <p class="solution-title">Đáp án: B</p>
+            <p><strong>Hướng dẫn giải:</strong><br>Áp dụng công thức đạo hàm của hàm logarit: $(\log_a u)' = \frac{u'}{u \ln a}$.<br>Ta có: $y' = \frac{(x+1)'}{(x+1)\ln 2} = \frac{1}{(x+1)\ln 2}$.</p>
+        </div>
+    </div>
 
     <script>
-        // Cấu hình đáp án đúng
-        const correctAnswers = {
-            q1: 'B', q2: 'A', q3: 'C', q4: 'C', q5: 'A',
-            q6: 'B', q7: 'B', q8: 'A', q9: 'A', q10: 'B'
-        };
-
-        // Thiết lập thời gian (15 phút = 900 giây)
-        let timeLeft = 15 * 60;
+        // Thời gian 15 phút (tính bằng giây)
+        let timeInSeconds = 15 * 60;
         let timerInterval;
 
-        function updateTimer() {
-            let minutes = Math.floor(timeLeft / 60);
-            let seconds = timeLeft % 60;
-            
-            // Định dạng chuỗi hiển thị mm:ss
-            minutes = minutes < 10 ? "0" + minutes : minutes;
-            seconds = seconds < 10 ? "0" + seconds : seconds;
-            
-            document.getElementById("time").innerText = minutes + ":" + seconds;
-
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                submitQuiz(); // Tự động nộp bài khi hết giờ
-            } else {
-                timeLeft--;
-            }
-        }
-
-        // Bắt đầu đồng hồ ngay khi tải trang
+        // Bắt đầu đếm ngược ngay khi tải trang
         window.onload = function() {
             timerInterval = setInterval(updateTimer, 1000);
         };
 
-        function submitQuiz() {
-            // Dừng đồng hồ
-            clearInterval(timerInterval);
-            document.getElementById("timer-bar").innerText = "Đã nộp bài";
-            document.getElementById("timer-bar").style.backgroundColor = "#27ae60";
+        function updateTimer() {
+            if (timeInSeconds <= 0) {
+                clearInterval(timerInterval);
+                document.getElementById('timer').innerHTML = "Hết giờ!";
+                submitQuiz(); // Hết giờ tự động nộp bài
+                return;
+            }
+            
+            let minutes = Math.floor(timeInSeconds / 60);
+            let seconds = timeInSeconds % 60;
+            
+            // Định dạng chuỗi hiển thị mm:ss
+            let timeString = (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+            document.getElementById('timer').innerHTML = "Thời gian: " + timeString;
+            
+            timeInSeconds--;
+        }
 
-            // Ẩn nút Nộp Bài
-            document.getElementById("submitBtn").style.display = "none";
+        function submitQuiz() {
+            clearInterval(timerInterval); // Dừng đồng hồ
+            
+            // Mã khóa đáp án đúng
+            const correctAnswers = {
+                q1: "D", q2: "D", q3: "D", q4: "B", q5: "A", 
+                q6: "B", q7: "C", q8: "B", q9: "D", q10: "B"
+            };
 
             let score = 0;
-            const totalQuestions = 10;
 
-            // Kiểm tra từng câu hỏi
-            for (let i = 1; i <= totalQuestions; i++) {
-                let questionName = "q" + i;
-                let selectedOption = document.querySelector(`input[name="${questionName}"]:checked`);
+            // Chấm điểm và đổi màu đáp án
+            for (let i = 1; i <= 10; i++) {
+                let qName = "q" + i;
+                let selectedOption = document.querySelector(`input[name="${qName}"]:checked`);
+                let userValue = selectedOption ? selectedOption.value : null;
                 
-                // Khóa tất cả các lựa chọn (disable radio buttons)
-                let allRadios = document.querySelectorAll(`input[name="${questionName}"]`);
-                allRadios.forEach(radio => radio.disabled = true);
+                // Highlight đáp án đúng
+                let allLabels = document.querySelectorAll(`input[name="${qName}"]`);
+                allLabels.forEach(radio => {
+                    let label = radio.parentElement;
+                    if (radio.value === correctAnswers[qName]) {
+                        label.classList.add("correct-answer"); // Bôi xanh đáp án đúng
+                    } else if (radio.checked && radio.value !== correctAnswers[qName]) {
+                        label.classList.add("wrong-answer"); // Bôi đỏ nếu chọn sai
+                    }
+                    radio.disabled = true; // Khóa không cho chọn lại
+                });
 
-                // Chấm điểm
-                if (selectedOption && selectedOption.value === correctAnswers[questionName]) {
+                if (userValue === correctAnswers[qName]) {
                     score++;
                 }
-
-                // Hiển thị khung lời giải cho câu hỏi này
-                document.getElementById("sol-q" + i).style.display = "block";
             }
 
-            // Hiển thị kết quả trên cùng
-            let resultDisplay = document.getElementById("result-display");
-            resultDisplay.innerHTML = `Bạn đã hoàn thành bài thi!<br>Điểm số của bạn: ${score} / ${totalQuestions}`;
-            resultDisplay.style.display = "block";
+            // Hiển thị kết quả
+            document.getElementById('result-text').innerHTML = `Điểm của bạn: ${score} / 10`;
+            document.getElementById('submit-btn').disabled = true;
+            document.getElementById('submit-btn').innerText = "Đã Nộp Bài";
+            
+            // Hiện tất cả hộp hướng dẫn giải
+            let solutionBoxes = document.querySelectorAll('.solution-box');
+            solutionBoxes.forEach(box => {
+                box.style.display = 'block';
+            });
 
             // Cuộn lên đầu trang để xem điểm
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
-
 </body>
 </html>
