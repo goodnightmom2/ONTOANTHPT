@@ -3,257 +3,420 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đề Kiểm Tra Giữa Học Kì 2 - Toán 10</title>
+    <title>Bài Kiểm Tra Trắc Nghiệm Đạo Hàm (15 Phút)</title>
     <style>
         body {
-            font-family: "Times New Roman", Times, serif;
-            line-height: 1.5;
-            margin: 0 auto;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
             max-width: 900px;
+            margin: 0 auto;
             padding: 20px;
-            color: #000;
+            background-color: #f4f7f6;
+            padding-top: 60px; /* Make room for sticky timer */
         }
-        .header {
-            display: flex;
-            justify-content: space-between;
+        h1 {
             text-align: center;
-            margin-bottom: 20px;
-            font-size: 16px;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
         }
-        .header-left, .header-right {
-            width: 48%;
-        }
-        .title {
+        #timer-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #e74c3c;
+            color: white;
             text-align: center;
-            font-size: 20px;
+            padding: 10px 0;
+            font-size: 1.5em;
             font-weight: bold;
-            margin: 20px 0;
-            text-transform: uppercase;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
-        .part-title {
-            font-weight: bold;
-            font-size: 17px;
-            margin-top: 30px;
-            margin-bottom: 10px;
+        .question-block {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
-        .question {
+        .topic-title {
+            color: #2980b9;
+            font-size: 1.1em;
+            margin-top: 0;
             margin-bottom: 15px;
-            text-align: justify;
+            border-bottom: 1px dashed #eee;
+            padding-bottom: 5px;
+        }
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 15px;
         }
         .options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 15px;
+        }
+        .options label {
             display: flex;
-            flex-wrap: wrap;
-            margin-top: 5px;
+            align-items: center;
+            cursor: pointer;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: background-color 0.2s;
         }
-        .option {
-            width: 25%;
-            padding-right: 10px;
-            box-sizing: border-box;
+        .options label:hover {
+            background-color: #f1f8ff;
         }
-        .tf-table {
+        .options input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        .solution-box {
+            display: none; /* Ẩn lời giải lúc đầu */
+            background-color: #e8f8f5;
+            border-left: 4px solid #1abc9c;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 0 4px 4px 0;
+        }
+        .solution-title {
+            color: #16a085;
+            font-weight: bold;
+            margin-top: 0;
+        }
+        .submit-btn {
+            display: block;
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
+            padding: 15px;
+            font-size: 1.2em;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 30px;
+            margin-bottom: 50px;
+            font-weight: bold;
+            transition: background-color 0.3s;
         }
-        .tf-table th, .tf-table td {
-            border: 1px solid #000;
-            padding: 8px;
-            text-align: left;
+        .submit-btn:hover {
+            background-color: #219a52;
         }
-        .tf-table th:nth-child(2), .tf-table th:nth-child(3),
-        .tf-table td:nth-child(2), .tf-table td:nth-child(3) {
+        #result-display {
+            display: none;
             text-align: center;
-            width: 60px;
+            background-color: #f1c40f;
+            color: #2c3e50;
+            padding: 20px;
+            font-size: 1.5em;
+            font-weight: bold;
+            border-radius: 8px;
+            margin-bottom: 30px;
         }
-        .short-answer {
-            margin-top: 10px;
+        @media (max-width: 600px) {
+            .options {
+                grid-template-columns: 1fr;
+            }
         }
-        .answer-box {
-            display: inline-block;
-            min-width: 150px;
-            border-bottom: 1px dotted #000;
-        }
-        i { font-style: italic; }
-        b { font-weight: bold; }
     </style>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 
-    <div class="header">
-        <div class="header-left">
-            TRƯỜNG THPT............................<br>
-            <b>TỔ TOÁN</b>
+    <div id="timer-bar">Thời gian còn lại: <span id="time">15:00</span></div>
+
+    <h1>BÀI KIỂM TRA ĐẠO HÀM</h1>
+    <p style="text-align: center; color: #7f8c8d;">Hãy chọn đáp án đúng nhất cho mỗi câu hỏi. Bài làm sẽ tự động nộp khi hết 15 phút.</p>
+
+    <div id="result-display"></div>
+
+    <form id="quiz-form">
+        <div class="question-block">
+            <h3 class="topic-title">Câu 1. Lý thuyết định nghĩa đạo hàm</h3>
+            <div class="question-text">
+                Cho hàm số $y=f(x)$ xác định trên $\mathbb{R}$ và thỏa mãn $\lim_{x\to 1}\frac{f(x)-f(1)}{x-1}=-2$. Giá trị của $f'(1)$ là:
+            </div>
+            <div class="options">
+                <label><input type="radio" name="q1" value="A"> A. $2$</label>
+                <label><input type="radio" name="q1" value="B"> B. $-2$</label>
+                <label><input type="radio" name="q1" value="C"> C. $0$</label>
+                <label><input type="radio" name="q1" value="D"> D. Không tồn tại</label>
+            </div>
+            <div class="solution-box" id="sol-q1">
+                <p class="solution-title">Đáp án: B</p>
+                <p><strong>Hướng dẫn giải:</strong><br>
+                Theo định nghĩa đạo hàm tại một điểm: $f'(x_0) = \lim_{x\to x_0}\frac{f(x)-f(x_0)}{x-x_0}$.<br>
+                Áp dụng với $x_0 = 1$, ta có $f'(1) = \lim_{x\to 1}\frac{f(x)-f(1)}{x-1} = -2$.</p>
+            </div>
         </div>
-        <div class="header-right">
-            <b>ĐỀ KIỂM TRA GIỮA HỌC KÌ 2<br>NĂM HỌC 2025 - 2026</b><br>
-            Môn: TOÁN 10<br>
-            <i>Thời gian làm bài: 60 phút (không kể thời gian phát đề)</i>
+
+        <div class="question-block">
+            <h3 class="topic-title">Câu 2. Tính đạo hàm hàm số hữu tỉ</h3>
+            <div class="question-text">
+                Đạo hàm của hàm số $y=\frac{2x+3}{x-1}$ tại điểm $x_0=2$ có giá trị bằng:
+            </div>
+            <div class="options">
+                <label><input type="radio" name="q2" value="A"> A. $-5$</label>
+                <label><input type="radio" name="q2" value="B"> B. $5$</label>
+                <label><input type="radio" name="q2" value="C"> C. $\frac{1}{2}$</label>
+                <label><input type="radio" name="q2" value="D"> D. $-1$</label>
+            </div>
+            <div class="solution-box" id="sol-q2">
+                <p class="solution-title">Đáp án: A</p>
+                <p><strong>Hướng dẫn giải:</strong><br>
+                Tập xác định $D = \mathbb{R} \setminus \{1\}$.<br>
+                Đạo hàm: $y' = \frac{2 \cdot (-1) - 3 \cdot 1}{(x-1)^2} = \frac{-5}{(x-1)^2}$.<br>
+                Thay $x_0 = 2$ ta được $y'(2) = \frac{-5}{(2-1)^2} = -5$.</p>
+            </div>
         </div>
-    </div>
 
-    <hr style="border: 0.5px solid #000; margin-bottom: 30px;">
-
-    <div class="part-title">PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn. (4,0 điểm)</div>
-    <i>Thí sinh trả lời từ câu 1 đến câu 10. Mỗi câu hỏi thí sinh chỉ chọn một phương án. (Mỗi câu đúng 0,4 điểm)</i>
-
-    <div class="question">
-        <b>Câu 1:</b> Tam thức bậc hai nào sau đây luôn nhận giá trị dương với mọi <i>x</i> &isin; &reals;?
-        <div class="options">
-            <div class="option"><b>A.</b> <i>f(x)</i> = <i>x</i>² - 4<i>x</i> + 3</div>
-            <div class="option"><b>B.</b> <i>f(x)</i> = -<i>x</i>² + 2<i>x</i> - 5</div>
-            <div class="option"><b>C.</b> <i>f(x)</i> = <i>x</i>² + <i>x</i> + 1</div>
-            <div class="option"><b>D.</b> <i>f(x)</i> = <i>x</i>² - 2<i>x</i> + 1</div>
+        <div class="question-block">
+            <h3 class="topic-title">Câu 3. Tính đạo hàm hàm mũ</h3>
+            <div class="question-text">
+                Hàm số $y = 5^x$ có đạo hàm là:
+            </div>
+            <div class="options">
+                <label><input type="radio" name="q3" value="A"> A. $y' = x \cdot 5^{x-1}$</label>
+                <label><input type="radio" name="q3" value="B"> B. $y' = \frac{5^x}{\ln 5}$</label>
+                <label><input type="radio" name="q3" value="C"> C. $y' = 5^x \ln 5$</label>
+                <label><input type="radio" name="q3" value="D"> D. $y' = 5^x$</label>
+            </div>
+            <div class="solution-box" id="sol-q3">
+                <p class="solution-title">Đáp án: C</p>
+                <p><strong>Hướng dẫn giải:</strong><br>
+                Áp dụng công thức đạo hàm cơ bản của hàm số mũ: $(a^x)' = a^x \ln a$.<br>
+                Với $a = 5$, ta có $y' = 5^x \ln 5$.</p>
+            </div>
         </div>
-    </div>
 
-    <div class="question">
-        <b>Câu 2:</b> Cho tam thức bậc hai <i>f(x)</i> = <i>ax</i>² + <i>bx</i> + <i>c</i> (<i>a</i> &ne; 0) có biệt thức &Delta; = <i>b</i>² - 4<i>ac</i>. Khẳng định nào sau đây đúng?
-        <div class="options">
-            <div class="option"><b>A.</b> Nếu &Delta; < 0 thì <i>f(x)</i> cùng dấu với <i>a</i> với mọi <i>x</i> &isin; &reals;.</div>
-            <div class="option"><b>B.</b> Nếu &Delta; > 0 thì <i>f(x)</i> cùng dấu với <i>a</i> với mọi <i>x</i> &isin; &reals;.</div>
-            <div class="option"><b>C.</b> Nếu &Delta; < 0 thì <i>f(x)</i> trái dấu với <i>a</i> với mọi <i>x</i> &isin; &reals;.</div>
-            <div class="option"><b>D.</b> Nếu &Delta; = 0 thì <i>f(x)</i> trái dấu với <i>a</i> với mọi <i>x</i> &isin; &reals;.</div>
+        <div class="question-block">
+            <h3 class="topic-title">Câu 4. Tính đạo hàm hàm lượng giác</h3>
+            <div class="question-text">
+                Đạo hàm của hàm số $y = \cos(2x)$ là:
+            </div>
+            <div class="options">
+                <label><input type="radio" name="q4" value="A"> A. $y' = \sin(2x)$</label>
+                <label><input type="radio" name="q4" value="B"> B. $y' = 2\sin(2x)$</label>
+                <label><input type="radio" name="q4" value="C"> C. $y' = -2\sin(2x)$</label>
+                <label><input type="radio" name="q4" value="D"> D. $y' = -\sin(2x)$</label>
+            </div>
+            <div class="solution-box" id="sol-q4">
+                <p class="solution-title">Đáp án: C</p>
+                <p><strong>Hướng dẫn giải:</strong><br>
+                Áp dụng công thức đạo hàm hàm hợp lượng giác: $(\cos u)' = -u' \sin u$.<br>
+                Với $u = 2x \Rightarrow u' = 2$.<br>
+                Vậy $y' = -2\sin(2x)$.</p>
+            </div>
         </div>
-    </div>
 
-    <div class="question">
-        <b>Câu 3:</b> Tìm tất cả các giá trị của tham số <i>m</i> để tam thức bậc hai <i>f(x)</i> = <i>x</i>² - 2<i>mx</i> + 4 có nghiệm kép.
-        <div class="options">
-            <div class="option"><b>A.</b> <i>m</i> = 2</div>
-            <div class="option"><b>B.</b> <i>m</i> = &plusmn;2</div>
-            <div class="option"><b>C.</b> <i>m</i> = -2</div>
-            <div class="option"><b>D.</b> <i>m</i> &isin; (-2; 2)</div>
+        <div class="question-block">
+            <h3 class="topic-title">Câu 5. Giải phương trình y'=0</h3>
+            <div class="question-text">
+                Cho hàm số $y = x^3 - 3x^2 + 2$. Tập nghiệm của phương trình $y' = 0$ là:
+            </div>
+            <div class="options">
+                <label><input type="radio" name="q5" value="A"> A. $\{0; 2\}$</label>
+                <label><input type="radio" name="q5" value="B"> B. $\{1; 2\}$</label>
+                <label><input type="radio" name="q5" value="C"> C. $\{-2; 0\}$</label>
+                <label><input type="radio" name="q5" value="D"> D. $\{0; 3\}$</label>
+            </div>
+            <div class="solution-box" id="sol-q5">
+                <p class="solution-title">Đáp án: A</p>
+                <p><strong>Hướng dẫn giải:</strong><br>
+                Ta có đạo hàm $y' = 3x^2 - 6x$.<br>
+                Giải phương trình $y' = 0 \Leftrightarrow 3x^2 - 6x = 0 \Leftrightarrow 3x(x - 2) = 0 \Leftrightarrow \left[ \begin{array}{l} x = 0 \\ x = 2 \end{array} \right.$.</p>
+            </div>
         </div>
-    </div>
 
-    <div class="question">
-        <b>Câu 4:</b> Tập nghiệm của bất phương trình <i>x</i>² - 5<i>x</i> + 6 &le; 0 là:
-        <div class="options">
-            <div class="option"><b>A.</b> [2; 3]</div>
-            <div class="option"><b>B.</b> (2; 3)</div>
-            <div class="option"><b>C.</b> (-&infin;; 2] &cup; [3; +&infin;)</div>
-            <div class="option"><b>D.</b> (-&infin;; 2) &cup; (3; +&infin;)</div>
+        <div class="question-block">
+            <h3 class="topic-title">Câu 6. Giải bất phương trình chứa đạo hàm</h3>
+            <div class="question-text">
+                Cho hàm số $f(x) = -x^3 + 3x$. Tập nghiệm của bất phương trình $f'(x) > 0$ là:
+            </div>
+            <div class="options">
+                <label><input type="radio" name="q6" value="A"> A. $(-\infty; -1) \cup (1; +\infty)$</label>
+                <label><input type="radio" name="q6" value="B"> B. $(-1; 1)$</label>
+                <label><input type="radio" name="q6" value="C"> C. $[-1; 1]$</label>
+                <label><input type="radio" name="q6" value="D"> D. $(0; +\infty)$</label>
+            </div>
+            <div class="solution-box" id="sol-q6">
+                <p class="solution-title">Đáp án: B</p>
+                <p><strong>Hướng dẫn giải:</strong><br>
+                Ta có $f'(x) = -3x^2 + 3$.<br>
+                $f'(x) > 0 \Leftrightarrow -3x^2 + 3 > 0 \Leftrightarrow x^2 < 1 \Leftrightarrow -1 < x < 1$.<br>
+                Vậy tập nghiệm là khoảng $(-1; 1)$.</p>
+            </div>
         </div>
-    </div>
 
-    <div class="question">
-        <b>Câu 5:</b> Khẳng định nào sau đây là bất phương trình bậc hai một ẩn?
-        <div class="options">
-            <div class="option"><b>A.</b> 2<i>x</i> - 3 > 0</div>
-            <div class="option"><b>B.</b> <i>x</i>³ + <i>x</i>² - 1 &le; 0</div>
-            <div class="option"><b>C.</b> -2<i>x</i>² + 5<i>x</i> - 1 < 0</div>
-            <div class="option"><b>D.</b> <i>x</i> + <i>y</i> &ge; 2</div>
+        <div class="question-block">
+            <h3 class="topic-title">Câu 7. Đạo hàm hàm hợp</h3>
+            <div class="question-text">
+                Đạo hàm của hàm số $y = (x^2 + 2)^5$ là:
+            </div>
+            <div class="options">
+                <label><input type="radio" name="q7" value="A"> A. $y' = 5(x^2 + 2)^4$</label>
+                <label><input type="radio" name="q7" value="B"> B. $y' = 10x(x^2 + 2)^4$</label>
+                <label><input type="radio" name="q7" value="C"> C. $y' = 5x(x^2 + 2)^4$</label>
+                <label><input type="radio" name="q7" value="D"> D. $y' = 10(x^2 + 2)^4$</label>
+            </div>
+            <div class="solution-box" id="sol-q7">
+                <p class="solution-title">Đáp án: B</p>
+                <p><strong>Hướng dẫn giải:</strong><br>
+                Áp dụng công thức $(u^n)' = n \cdot u^{n-1} \cdot u'$ với $u = x^2 + 2$.<br>
+                $y' = 5(x^2 + 2)^4 \cdot (x^2 + 2)' = 5(x^2 + 2)^4 \cdot (2x) = 10x(x^2 + 2)^4$.</p>
+            </div>
         </div>
-    </div>
 
-    <div class="question">
-        <b>Câu 6:</b> Tập nghiệm của phương trình &radic;(<i>x</i>² - 3<i>x</i> + 2) = &radic;(<i>x</i> - 1) là:
-        <div class="options">
-            <div class="option"><b>A.</b> S = {1; 3}</div>
-            <div class="option"><b>B.</b> S = {3}</div>
-            <div class="option"><b>C.</b> S = {1}</div>
-            <div class="option"><b>D.</b> S = &empty;</div>
+        <div class="question-block">
+            <h3 class="topic-title">Câu 8. Phương trình tiếp tuyến</h3>
+            <div class="question-text">
+                Phương trình tiếp tuyến của đồ thị hàm số $y=x^3-3x+1$ tại điểm có hoành độ $x_0=2$ là:
+            </div>
+            <div class="options">
+                <label><input type="radio" name="q8" value="A"> A. $y = 9x - 15$</label>
+                <label><input type="radio" name="q8" value="B"> B. $y = 9x + 15$</label>
+                <label><input type="radio" name="q8" value="C"> C. $y = 9x - 21$</label>
+                <label><input type="radio" name="q8" value="D"> D. $y = -9x + 21$</label>
+            </div>
+            <div class="solution-box" id="sol-q8">
+                <p class="solution-title">Đáp án: A</p>
+                <p><strong>Hướng dẫn giải:</strong><br>
+                Với $x_0 = 2 \Rightarrow y_0 = 2^3 - 3(2) + 1 = 3$.<br>
+                Đạo hàm $y' = 3x^2 - 3 \Rightarrow$ Hệ số góc $k = y'(2) = 3(2^2) - 3 = 9$.<br>
+                Phương trình tiếp tuyến: $y = 9(x - 2) + 3 \Leftrightarrow y = 9x - 18 + 3 \Leftrightarrow y = 9x - 15$.</p>
+            </div>
         </div>
-    </div>
 
-    <div class="question">
-        <b>Câu 7:</b> Lớp 10A có 15 học sinh nam và 20 học sinh nữ. Có bao nhiêu cách chọn 1 học sinh của lớp đi dự Đại hội Đoàn trường?
-        <div class="options">
-            <div class="option"><b>A.</b> 300</div>
-            <div class="option"><b>B.</b> 15</div>
-            <div class="option"><b>C.</b> 20</div>
-            <div class="option"><b>D.</b> 35</div>
+        <div class="question-block">
+            <h3 class="topic-title">Câu 9. Ứng dụng đạo hàm trong Vật lý</h3>
+            <div class="question-text">
+                Một chất điểm chuyển động có phương trình quãng đường là $s(t) = t^3 - 3t^2 + 9t$ ($t$ tính bằng giây, $s$ tính bằng mét). Tính vận tốc của chất điểm tại thời điểm $t=2$ giây.
+            </div>
+            <div class="options">
+                <label><input type="radio" name="q9" value="A"> A. $9 \text{ m/s}$</label>
+                <label><input type="radio" name="q9" value="B"> B. $21 \text{ m/s}$</label>
+                <label><input type="radio" name="q9" value="C"> C. $3 \text{ m/s}$</label>
+                <label><input type="radio" name="q9" value="D"> D. $6 \text{ m/s}$</label>
+            </div>
+            <div class="solution-box" id="sol-q9">
+                <p class="solution-title">Đáp án: A</p>
+                <p><strong>Hướng dẫn giải:</strong><br>
+                Phương trình vận tốc: $v(t) = s'(t) = 3t^2 - 6t + 9$.<br>
+                Vận tốc tại $t=2$: $v(2) = 3(2^2) - 6(2) + 9 = 12 - 12 + 9 = 9 \text{ m/s}$.</p>
+            </div>
         </div>
-    </div>
 
-    <div class="question">
-        <b>Câu 8:</b> Trong hệ trục tọa độ <i>Oxy</i>, cho hai vectơ <i>a&#8407;</i> = (1; 3) và <i>b&#8407;</i> = (2; -1). Tọa độ của vectơ <i>u&#8407;</i> = <i>a&#8407;</i> + <i>b&#8407;</i> là:
-        <div class="options">
-            <div class="option"><b>A.</b> (3; 2)</div>
-            <div class="option"><b>B.</b> (-1; 4)</div>
-            <div class="option"><b>C.</b> (1; -4)</div>
-            <div class="option"><b>D.</b> (3; -2)</div>
+        <div class="question-block">
+            <h3 class="topic-title">Câu 10. Đạo hàm hàm Logarit</h3>
+            <div class="question-text">
+                Đạo hàm của hàm số $y=\log_3(2x+1)$ là:
+            </div>
+            <div class="options">
+                <label><input type="radio" name="q10" value="A"> A. $y' = \frac{1}{(2x+1)\ln 3}$</label>
+                <label><input type="radio" name="q10" value="B"> B. $y' = \frac{2}{(2x+1)\ln 3}$</label>
+                <label><input type="radio" name="q10" value="C"> C. $y' = \frac{2\ln 3}{2x+1}$</label>
+                <label><input type="radio" name="q10" value="D"> D. $y' = \frac{1}{2x+1}$</label>
+            </div>
+            <div class="solution-box" id="sol-q10">
+                <p class="solution-title">Đáp án: B</p>
+                <p><strong>Hướng dẫn giải:</strong><br>
+                Áp dụng công thức đạo hàm hàm logarit hợp: $(\log_a u)' = \frac{u'}{u \ln a}$.<br>
+                Với $u = 2x+1 \Rightarrow u' = 2$, và $a = 3$.<br>
+                Ta có: $y' = \frac{2}{(2x+1)\ln 3}$.</p>
+            </div>
         </div>
-    </div>
 
-    <div class="question">
-        <b>Câu 9:</b> Trong mặt phẳng <i>Oxy</i>, đường thẳng &Delta;: 2<i>x</i> - 3<i>y</i> + 1 = 0 có một vectơ pháp tuyến là:
-        <div class="options">
-            <div class="option"><b>A.</b> <i>n&#8407;</i> = (2; 3)</div>
-            <div class="option"><b>B.</b> <i>n&#8407;</i> = (2; -3)</div>
-            <div class="option"><b>C.</b> <i>n&#8407;</i> = (3; 2)</div>
-            <div class="option"><b>D.</b> <i>n&#8407;</i> = (-3; 2)</div>
-        </div>
-    </div>
+        <button type="button" class="submit-btn" id="submitBtn" onclick="submitQuiz()">Nộp Bài</button>
+    </form>
 
-    <div class="question">
-        <b>Câu 10:</b> Khoảng cách từ điểm <i>M</i>(1; -1) đến đường thẳng <i>d</i>: 3<i>x</i> + 4<i>y</i> - 4 = 0 bằng:
-        <div class="options">
-            <div class="option"><b>A.</b> 1</div>
-            <div class="option"><b>B.</b> 2</div>
-            <div class="option"><b>C.</b> 5</div>
-            <div class="option"><b>D.</b> 4</div>
-        </div>
-    </div>
+    <script>
+        // Cấu hình đáp án đúng
+        const correctAnswers = {
+            q1: 'B', q2: 'A', q3: 'C', q4: 'C', q5: 'A',
+            q6: 'B', q7: 'B', q8: 'A', q9: 'A', q10: 'B'
+        };
 
-    <div class="part-title">PHẦN II. Câu trắc nghiệm đúng sai. (3,0 điểm)</div>
-    <i>Thí sinh trả lời từ câu 1 đến câu 3. Trong mỗi ý a), b), c), d) ở mỗi câu, thí sinh chọn đúng hoặc sai.</i>
+        // Thiết lập thời gian (15 phút = 900 giây)
+        let timeLeft = 15 * 60;
+        let timerInterval;
 
-    <div class="question">
-        <b>Câu 1:</b> Cho hàm số bậc hai có đồ thị là một parabol cắt trục hoành tại hai điểm phân biệt có hoành độ <i>x</i> = -1 và <i>x</i> = 3, đồng thời bề lõm quay xuống dưới. Đặt biểu thức của hàm số này là <i>f(x)</i> = -<i>x</i>² + 2<i>x</i> + 3.
-        <table class="tf-table">
-            <tr><th>Phát biểu</th><th>Đúng</th><th>Sai</th></tr>
-            <tr><td>a) <i>f(x)</i> = 0 khi và chỉ khi <i>x</i> = -1 hoặc <i>x</i> = 3.</td><td></td><td></td></tr>
-            <tr><td>b) Bất phương trình <i>f(x)</i> > 0 có tập nghiệm là khoảng (-1; 3).</td><td></td><td></td></tr>
-            <tr><td>c) Bất phương trình <i>f(x)</i> &le; 0 có tập nghiệm là [-1; 3].</td><td></td><td></td></tr>
-            <tr><td>d) Tổng tất cả các số nguyên <i>x</i> thỏa mãn <i>f(x)</i> &ge; 0 bằng 4.</td><td></td><td></td></tr>
-        </table>
-    </div>
+        function updateTimer() {
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            
+            // Định dạng chuỗi hiển thị mm:ss
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            
+            document.getElementById("time").innerText = minutes + ":" + seconds;
 
-    <div class="question">
-        <b>Câu 2:</b> Một quán ăn phục vụ thực đơn gồm 5 loại đồ uống khác nhau và 4 món ăn chính khác nhau.
-        <table class="tf-table">
-            <tr><th>Phát biểu</th><th>Đúng</th><th>Sai</th></tr>
-            <tr><td>a) Khách hàng có 9 cách chọn một món (hoặc đồ uống, hoặc món ăn chính).</td><td></td><td></td></tr>
-            <tr><td>b) Khách hàng có 20 cách chọn một khẩu phần gồm 1 đồ uống và 1 món ăn chính.</td><td></td><td></td></tr>
-            <tr><td>c) Nếu quán bổ sung thêm 3 loại món tráng miệng, số cách chọn một phần ăn gồm 1 đồ uống, 1 món chính và 1 món tráng miệng là 60 cách.</td><td></td><td></td></tr>
-            <tr><td>d) Cùng với 3 món tráng miệng, số cách để khách chọn 1 đồ uống và 1 món đồ ăn (chính hoặc tráng miệng) là 35 cách.</td><td></td><td></td></tr>
-        </table>
-    </div>
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                submitQuiz(); // Tự động nộp bài khi hết giờ
+            } else {
+                timeLeft--;
+            }
+        }
 
-    <div class="question">
-        <b>Câu 3:</b> Trong mặt phẳng tọa độ <i>Oxy</i>, cho ba điểm <i>A</i>(-1; 2), <i>B</i>(3; -1) và đường thẳng <i>d</i> có phương trình <i>x</i> + 2<i>y</i> - 5 = 0.
-        <table class="tf-table">
-            <tr><th>Phát biểu</th><th>Đúng</th><th>Sai</th></tr>
-            <tr><td>a) Tọa độ vectơ <i>AB&#8407;</i> = (4; -3).</td><td></td><td></td></tr>
-            <tr><td>b) Điểm <i>A</i> nằm trên đường thẳng <i>d</i>.</td><td></td><td></td></tr>
-            <tr><td>c) Khoảng cách từ điểm <i>B</i> đến đường thẳng <i>d</i> bằng 2.</td><td></td><td></td></tr>
-            <tr><td>d) Đường thẳng đi qua hai điểm <i>A</i>, <i>B</i> có phương trình tổng quát là 3<i>x</i> + 4<i>y</i> - 5 = 0.</td><td></td><td></td></tr>
-        </table>
-    </div>
+        // Bắt đầu đồng hồ ngay khi tải trang
+        window.onload = function() {
+            timerInterval = setInterval(updateTimer, 1000);
+        };
 
-    <div class="part-title">PHẦN III. Câu trắc nghiệm trả lời ngắn. (3,0 điểm)</div>
-    <i>Thí sinh trả lời từ câu 1 đến câu 4. (Mỗi câu đúng 0,75 điểm)</i>
+        function submitQuiz() {
+            // Dừng đồng hồ
+            clearInterval(timerInterval);
+            document.getElementById("timer-bar").innerText = "Đã nộp bài";
+            document.getElementById("timer-bar").style.backgroundColor = "#27ae60";
 
-    <div class="question">
-        <b>Câu 1:</b> Một quả bóng được ném thẳng đứng lên trên từ độ cao 2m so với mặt đất với vận tốc ban đầu 15 m/s. Độ cao của quả bóng so với mặt đất (tính bằng mét) sau <i>t</i> giây được mô hình hóa bởi hàm số <i>h(t)</i> = -5<i>t</i>² + 15<i>t</i> + 2 (bỏ qua sức cản của không khí). Hỏi quả bóng ở độ cao trên 12m so với mặt đất trong khoảng thời gian bao nhiêu giây?
-        <div class="short-answer"><b>Đáp án:</b> <span class="answer-box"></span></div>
-    </div>
+            // Ẩn nút Nộp Bài
+            document.getElementById("submitBtn").style.display = "none";
 
-    <div class="question">
-        <b>Câu 2:</b> Tìm tổng các nghiệm của phương trình &radic;(2<i>x</i>² - 3<i>x</i> - 1) = <i>x</i> - 1.
-        <div class="short-answer"><b>Đáp án:</b> <span class="answer-box"></span></div>
-    </div>
+            let score = 0;
+            const totalQuestions = 10;
 
-    <div class="question">
-        <b>Câu 3:</b> Trong mặt phẳng <i>Oxy</i>, cho điểm <i>A</i>(2; 1) và đường thẳng &Delta;: <i>x</i> - 2<i>y</i> + 5 = 0. Tìm tung độ của điểm <i>H</i>, biết <i>H</i> là hình chiếu vuông góc của điểm <i>A</i> trên đường thẳng &Delta;.
-        <div class="short-answer"><b>Đáp án:</b> <span class="answer-box"></span></div>
-    </div>
+            // Kiểm tra từng câu hỏi
+            for (let i = 1; i <= totalQuestions; i++) {
+                let questionName = "q" + i;
+                let selectedOption = document.querySelector(`input[name="${questionName}"]:checked`);
+                
+                // Khóa tất cả các lựa chọn (disable radio buttons)
+                let allRadios = document.querySelectorAll(`input[name="${questionName}"]`);
+                allRadios.forEach(radio => radio.disabled = true);
 
-    <div class="question">
-        <b>Câu 4:</b> Có bao nhiêu giá trị nguyên của tham số <i>m</i> thuộc đoạn [-10; 10] để tam thức bậc hai <i>f(x)</i> = <i>x</i>² - 2(<i>m</i> - 1)<i>x</i> + <i>m</i>² - 3<i>m</i> + 4 luôn nhận giá trị dương với mọi <i>x</i> &isin; &reals;?
-        <div class="short-answer"><b>Đáp án:</b> <span class="answer-box"></span></div>
-    </div>
+                // Chấm điểm
+                if (selectedOption && selectedOption.value === correctAnswers[questionName]) {
+                    score++;
+                }
+
+                // Hiển thị khung lời giải cho câu hỏi này
+                document.getElementById("sol-q" + i).style.display = "block";
+            }
+
+            // Hiển thị kết quả trên cùng
+            let resultDisplay = document.getElementById("result-display");
+            resultDisplay.innerHTML = `Bạn đã hoàn thành bài thi!<br>Điểm số của bạn: ${score} / ${totalQuestions}`;
+            resultDisplay.style.display = "block";
+
+            // Cuộn lên đầu trang để xem điểm
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
 
 </body>
 </html>
