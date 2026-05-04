@@ -1,1 +1,230 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đề Thi Cuối Học Kỳ II - Toán 11 - Đề Số 3</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            line-height: 1.6;
+            color: #222;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #eef2f3;
+        }
+        .container {
+            background-color: #fff;
+            padding: 45px;
+            border-radius: 6px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-top: 5px solid #2980b9;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 2px solid #333;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+        .header-left, .header-right { width: 48%; text-align: center; }
+        .title { text-align: center; font-size: 22px; font-weight: bold; margin: 20px 0; color: #c0392b; }
+        .time { text-align: center; font-style: italic; margin-bottom: 30px; }
+        .section-title {
+            font-weight: bold;
+            font-size: 17px;
+            background-color: #e8f4f8;
+            padding: 10px;
+            border-left: 5px solid #3498db;
+            margin: 30px 0 15px 0;
+            text-transform: uppercase;
+        }
+        .instruction { font-style: italic; color: #555; margin-bottom: 15px; font-size: 15px; }
+        .question { margin-bottom: 20px; }
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 10px;
+            padding-left: 15px;
+        }
+        .tf-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+        .tf-table th, .tf-table td {
+            border: 1px solid #aaa;
+            padding: 10px;
+        }
+        .tf-table th { background-color: #f5f5f5; text-align: center; }
+        .ans-box {
+            margin-top: 12px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            background-color: #fafafa;
+            border-radius: 4px;
+        }
+        .end-text { text-align: center; margin-top: 40px; font-weight: bold; letter-spacing: 2px;}
+    </style>
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
 
+<div class="container">
+    <div class="header">
+        <div class="header-left">
+            SỞ GIÁO DỤC VÀ ĐÀO TẠO<br>
+            <b>TRƯỜNG THPT CHUYÊN</b>
+        </div>
+        <div class="header-right">
+            <b>ĐỀ KIỂM TRA CUỐI HỌC KỲ II</b><br>
+            Môn: TOÁN - Lớp 11<br>
+            <i>Năm học: 2024 - 2025</i>
+        </div>
+    </div>
+
+    <div class="title">ĐỀ THI MÃ SỐ 03</div>
+    <div class="time">Thời gian làm bài: 90 phút (không kể thời gian phát đề)</div>
+
+    <div class="section-title">PHẦN I. TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN (10 CÂU)</div>
+    <div class="instruction">Thí sinh chọn một phương án đúng duy nhất cho mỗi câu hỏi.</div>
+
+    <div class="question">
+        <b>Câu 1:</b> Rút gọn biểu thức $P = x^{\frac{1}{3}} \cdot x^{\frac{1}{6}}$ (với $x > 0$), ta được:
+        <div class="options">
+            <div>A. $P = x^{\frac{1}{18}}$</div><div>B. $P = x^{\frac{1}{2}}$</div><div>C. $P = x^{\frac{2}{9}}$</div><div>D. $P = x^2$</div>
+        </div>
+    </div>
+
+    <div class="question">
+        <b>Câu 2:</b> Điều kiện xác định của hàm số $y = \log_2(x - 3)$ là:
+        <div class="options">
+            <div>A. $x \ge 3$</div><div>B. $x < 3$</div><div>C. $x > 3$</div><div>D. $x \neq 3$</div>
+        </div>
+    </div>
+
+    <div class="question">
+        <b>Câu 3:</b> Tập nghiệm của bất phương trình $3^x < 9$ là:
+        <div class="options">
+            <div>A. $(-\infty; 2)$</div><div>B. $(2; +\infty)$</div><div>C. $(-\infty; 3)$</div><div>D. $(3; +\infty)$</div>
+        </div>
+    </div>
+
+    <div class="question">
+        <b>Câu 4:</b> Đạo hàm của hàm số $y = x^3 - 2x + 1$ là:
+        <div class="options">
+            <div>A. $y' = 3x^2 - 2x$</div><div>B. $y' = 3x^2 - 2$</div><div>C. $y' = x^2 - 2$</div><div>D. $y' = 3x^2 + 2$</div>
+        </div>
+    </div>
+
+    <div class="question">
+        <b>Câu 5:</b> Đạo hàm của hàm số $y = \sin(2x)$ là:
+        <div class="options">
+            <div>A. $y' = \cos(2x)$</div><div>B. $y' = -\cos(2x)$</div><div>C. $y' = 2\cos(2x)$</div><div>D. $y' = -2\cos(2x)$</div>
+        </div>
+    </div>
+
+    <div class="question">
+        <b>Câu 6:</b> Cho hình lập phương $ABCD.A'B'C'D'$. Đường thẳng $AA'$ vuông góc với mặt phẳng nào dưới đây?
+        <div class="options">
+            <div>A. $(ABB'A')$</div><div>B. $(BCC'B')$</div><div>C. $(ABCD)$</div><div>D. $(CDD'C')$</div>
+        </div>
+    </div>
+
+    <div class="question">
+        <b>Câu 7:</b> Thể tích của khối lăng trụ có diện tích đáy bằng $6$ và chiều cao bằng $4$ là:
+        <div class="options">
+            <div>A. $8$</div><div>B. $24$</div><div>C. $12$</div><div>D. $10$</div>
+        </div>
+    </div>
+
+    <div class="question">
+        <b>Câu 8:</b> Gieo một con xúc xắc cân đối và đồng chất 2 lần liên tiếp. Số phần tử của không gian mẫu là:
+        <div class="options">
+            <div>A. $12$</div><div>B. $6$</div><div>C. $24$</div><div>D. $36$</div>
+        </div>
+    </div>
+
+    <div class="question">
+        <b>Câu 9:</b> Cho $A$ và $B$ là hai biến cố độc lập, biết $P(A) = 0,3$ và $P(B) = 0,4$. Tính xác suất của biến cố giao $P(AB)$.
+        <div class="options">
+            <div>A. $0,7$</div><div>B. $0,12$</div><div>C. $0,82$</div><div>D. $0,1$</div>
+        </div>
+    </div>
+
+    <div class="question">
+        <b>Câu 10:</b> Khoảng cách từ một điểm $M$ nằm ngoài mặt phẳng $(P)$ đến mặt phẳng $(P)$ được định nghĩa là:
+        <div class="options">
+            <div>A. Độ dài đoạn thẳng từ $M$ đến một điểm bất kỳ trên $(P)$.</div>
+            <div>B. Độ dài hình chiếu của $M$ trên $(P)$.</div>
+            <div>C. Độ dài đoạn vuông góc hạ từ $M$ xuống mặt phẳng $(P)$.</div>
+            <div>D. Khoảng cách giữa hai đường thẳng chéo nhau.</div>
+        </div>
+    </div>
+
+    <div class="section-title">PHẦN II. CÂU HỎI TRẮC NGHIỆM ĐÚNG SAI (3 CÂU)</div>
+    <div class="instruction">Thí sinh xét tính Đúng hoặc Sai cho mỗi ý a), b), c), d).</div>
+
+    <div class="question">
+        <b>Câu 11:</b> Cho hàm số $f(x) = \frac{x+1}{x-1}$.
+        <table class="tf-table">
+            <tr><th>Mệnh đề</th><th style="width: 70px;">Đ/S</th></tr>
+            <tr><td>a) Tập xác định của hàm số là $D = \mathbb{R} \setminus \{1\}$.</td><td></td></tr>
+            <tr><td>b) Đạo hàm của hàm số là $f'(x) = \frac{-2}{(x-1)^2}$.</td><td></td></tr>
+            <tr><td>c) Hàm số luôn đồng biến trên từng khoảng xác định.</td><td></td></tr>
+            <tr><td>d) Tiếp tuyến của đồ thị hàm số tại điểm có hoành độ $x=2$ có hệ số góc bằng $2$.</td><td></td></tr>
+        </table>
+    </div>
+
+    <div class="question">
+        <b>Câu 12:</b> Cho tứ diện $OABC$ có ba cạnh $OA, OB, OC$ đôi một vuông góc với nhau tại $O$.
+        <table class="tf-table">
+            <tr><th>Mệnh đề</th><th style="width: 70px;">Đ/S</th></tr>
+            <tr><td>a) Đường thẳng $OA$ vuông góc với mặt phẳng $(OBC)$.</td><td></td></tr>
+            <tr><td>b) Đường thẳng $BC$ vuông góc với mặt phẳng $(OAB)$.</td><td></td></tr>
+            <tr><td>c) Gọi $H$ là hình chiếu vuông góc của $O$ lên mặt phẳng $(ABC)$. Khi đó $H$ là trực tâm của tam giác $ABC$.</td><td></td></tr>
+            <tr><td>d) Góc giữa hai đường thẳng $OA$ và $BC$ bằng $90^\circ$.</td><td></td></tr>
+        </table>
+    </div>
+
+    <div class="question">
+        <b>Câu 13:</b> Một hộp có 4 viên bi đỏ và 5 viên bi xanh (các viên bi có kích thước giống nhau). Lấy ngẫu nhiên đồng thời 2 viên bi từ hộp.
+        <table class="tf-table">
+            <tr><th>Mệnh đề</th><th style="width: 70px;">Đ/S</th></tr>
+            <tr><td>a) Số phần tử của không gian mẫu là $36$.</td><td></td></tr>
+            <tr><td>b) Xác suất để lấy được 2 viên bi màu đỏ là $\frac{1}{6}$.</td><td></td></tr>
+            <tr><td>c) Xác suất để lấy được 2 viên bi cùng màu là $\frac{4}{9}$.</td><td></td></tr>
+            <tr><td>d) Xác suất để lấy được ít nhất 1 viên bi xanh là $\frac{1}{6}$.</td><td></td></tr>
+        </table>
+    </div>
+
+    <div class="section-title">PHẦN III. CÂU TRẢ LỜI NGẮN (TOÁN THỰC TẾ)</div>
+    <div class="instruction">Thí sinh tính toán và điền kết quả vào ô trống.</div>
+
+    <div class="question">
+        <b>Câu 14 (Ứng dụng Đạo hàm):</b> Một quả đạn pháo được bắn lên trên không trung với phương trình quỹ đạo tính theo thời gian là $h(t) = -5t^2 + 20t + 2$, trong đó độ cao $h$ tính bằng mét và $t$ tính bằng giây ($t \ge 0$). Hỏi trong quá trình bay, quả đạn pháo đạt độ cao tối đa là bao nhiêu mét?
+        <div class="ans-box"><b>Trả lời:</b> ..................................................... mét</div>
+    </div>
+
+    <div class="question">
+        <b>Câu 15 (Ứng dụng Hàm số Mũ/Lôgarit):</b> Một người gửi tiết kiệm $100$ triệu đồng vào ngân hàng với lãi suất $6\%$/năm theo hình thức lãi kép (tiền lãi sinh ra được cộng dồn vào gốc để tính lãi cho năm tiếp theo). Hỏi sau ít nhất bao nhiêu năm người đó sẽ nhận được số tiền cả gốc lẫn lãi lớn hơn $200$ triệu đồng? (Biết lãi suất không thay đổi trong suốt kỳ hạn gửi).
+        <div class="ans-box"><b>Trả lời:</b> ..................................................... năm</div>
+    </div>
+
+    <div class="question">
+        <b>Câu 16 (Ứng dụng Hình học không gian):</b> Người ta thiết kế một phần mái nhà có dạng là một khối chóp tứ giác đều. Biết đáy của khối chóp là hình vuông cạnh $8\text{ m}$ và chiều cao của khối chóp bằng $3\text{ m}$. Người ta muốn lợp ngói cho 4 mặt xung quanh của mái nhà này. Tính tổng diện tích bề mặt cần lợp ngói (tính bằng m$^2$).
+        <div class="ans-box"><b>Trả lời:</b> ..................................................... $m^2$</div>
+    </div>
+
+    <div class="end-text">--- HẾT ---</div>
+</div>
+
+</body>
+</html>
