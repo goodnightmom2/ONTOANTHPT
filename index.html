@@ -3,70 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đề Thi Cuối Học Kỳ II - Toán 11 - Đề Số 3</title>
+    <title>Đề Thi Cuối Học Kỳ II - Toán 11 - Đề Số 4</title>
     <style>
         body {
             font-family: 'Times New Roman', Times, serif;
             line-height: 1.6;
-            color: #222;
+            color: #2c3e50;
             max-width: 900px;
             margin: 0 auto;
             padding: 30px;
-            background-color: #eef2f3;
+            background-color: #f7f9fa;
         }
         .container {
-            background-color: #fff;
-            padding: 45px;
-            border-radius: 6px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            border-top: 5px solid #2980b9;
+            background-color: #ffffff;
+            padding: 40px 50px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-top: 6px solid #27ae60;
         }
         .header {
             display: flex;
             justify-content: space-between;
-            border-bottom: 2px solid #333;
+            border-bottom: 2px solid #34495e;
             padding-bottom: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
         .header-left, .header-right { width: 48%; text-align: center; }
-        .title { text-align: center; font-size: 22px; font-weight: bold; margin: 20px 0; color: #c0392b; }
-        .time { text-align: center; font-style: italic; margin-bottom: 30px; }
+        .title { text-align: center; font-size: 24px; font-weight: bold; margin: 15px 0; color: #c0392b; }
+        .time { text-align: center; font-style: italic; margin-bottom: 35px; color: #7f8c8d; }
         .section-title {
             font-weight: bold;
-            font-size: 17px;
-            background-color: #e8f4f8;
-            padding: 10px;
-            border-left: 5px solid #3498db;
+            font-size: 18px;
+            background-color: #eafaf1;
+            padding: 10px 15px;
+            border-left: 5px solid #27ae60;
             margin: 30px 0 15px 0;
             text-transform: uppercase;
         }
-        .instruction { font-style: italic; color: #555; margin-bottom: 15px; font-size: 15px; }
-        .question { margin-bottom: 20px; }
+        .instruction { font-style: italic; color: #555; margin-bottom: 20px; }
+        .question { margin-bottom: 22px; text-align: justify; }
         .options {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 10px;
+            gap: 10px;
+            margin-top: 12px;
             padding-left: 15px;
         }
         .tf-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 12px;
+            margin-top: 15px;
         }
         .tf-table th, .tf-table td {
-            border: 1px solid #aaa;
+            border: 1px solid #bdc3c7;
             padding: 10px;
         }
-        .tf-table th { background-color: #f5f5f5; text-align: center; }
+        .tf-table th { background-color: #f2f4f4; text-align: center; }
         .ans-box {
-            margin-top: 12px;
+            margin-top: 15px;
             padding: 15px;
-            border: 1px solid #ccc;
-            background-color: #fafafa;
-            border-radius: 4px;
+            border: 2px dashed #95a5a6;
+            background-color: #fdfefe;
+            border-radius: 5px;
         }
-        .end-text { text-align: center; margin-top: 40px; font-weight: bold; letter-spacing: 2px;}
+        .solution-section {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 3px double #34495e;
+        }
+        .solution-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2980b9;
+            text-align: center;
+            margin-bottom: 20px;
+        }
     </style>
     <script>
         MathJax = {
@@ -81,7 +92,7 @@
     <div class="header">
         <div class="header-left">
             SỞ GIÁO DỤC VÀ ĐÀO TẠO<br>
-            <b>TRƯỜNG THPT CHUYÊN</b>
+            <b>TRƯỜNG THPT LQĐ</b>
         </div>
         <div class="header-right">
             <b>ĐỀ KIỂM TRA CUỐI HỌC KỲ II</b><br>
@@ -90,82 +101,85 @@
         </div>
     </div>
 
-    <div class="title">ĐỀ THI MÃ SỐ 03</div>
+    <div class="title">ĐỀ THI MÃ SỐ 04</div>
     <div class="time">Thời gian làm bài: 90 phút (không kể thời gian phát đề)</div>
 
     <div class="section-title">PHẦN I. TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN (10 CÂU)</div>
     <div class="instruction">Thí sinh chọn một phương án đúng duy nhất cho mỗi câu hỏi.</div>
 
     <div class="question">
-        <b>Câu 1:</b> Rút gọn biểu thức $P = x^{\frac{1}{3}} \cdot x^{\frac{1}{6}}$ (với $x > 0$), ta được:
+        <b>Câu 1:</b> Với $x > 0$, biểu thức $\sqrt[4]{x^3}$ được viết dưới dạng lũy thừa với số mũ hữu tỉ là:
         <div class="options">
-            <div>A. $P = x^{\frac{1}{18}}$</div><div>B. $P = x^{\frac{1}{2}}$</div><div>C. $P = x^{\frac{2}{9}}$</div><div>D. $P = x^2$</div>
+            <div>A. $x^{\frac{3}{4}}$</div><div>B. $x^{\frac{4}{3}}$</div><div>C. $x^{\frac{1}{12}}$</div><div>D. $x^7$</div>
         </div>
     </div>
 
     <div class="question">
-        <b>Câu 2:</b> Điều kiện xác định của hàm số $y = \log_2(x - 3)$ là:
+        <b>Câu 2:</b> Giá trị của biểu thức $\log_2 8$ bằng:
         <div class="options">
-            <div>A. $x \ge 3$</div><div>B. $x < 3$</div><div>C. $x > 3$</div><div>D. $x \neq 3$</div>
+            <div>A. $4$</div><div>B. $3$</div><div>C. $16$</div><div>D. $6$</div>
         </div>
     </div>
 
     <div class="question">
-        <b>Câu 3:</b> Tập nghiệm của bất phương trình $3^x < 9$ là:
+        <b>Câu 3:</b> Phương trình $2^{x-1} = 16$ có nghiệm là:
         <div class="options">
-            <div>A. $(-\infty; 2)$</div><div>B. $(2; +\infty)$</div><div>C. $(-\infty; 3)$</div><div>D. $(3; +\infty)$</div>
+            <div>A. $x = 3$</div><div>B. $x = 4$</div><div>C. $x = 5$</div><div>D. $x = 17$</div>
         </div>
     </div>
 
     <div class="question">
-        <b>Câu 4:</b> Đạo hàm của hàm số $y = x^3 - 2x + 1$ là:
+        <b>Câu 4:</b> Đạo hàm của hàm số $y = x^4$ là:
         <div class="options">
-            <div>A. $y' = 3x^2 - 2x$</div><div>B. $y' = 3x^2 - 2$</div><div>C. $y' = x^2 - 2$</div><div>D. $y' = 3x^2 + 2$</div>
+            <div>A. $y' = 4x$</div><div>B. $y' = 4x^3$</div><div>C. $y' = \frac{x^5}{5}$</div><div>D. $y' = x^3$</div>
         </div>
     </div>
 
     <div class="question">
-        <b>Câu 5:</b> Đạo hàm của hàm số $y = \sin(2x)$ là:
+        <b>Câu 5:</b> Đạo hàm của hàm số $y = \cos(2x)$ là:
         <div class="options">
-            <div>A. $y' = \cos(2x)$</div><div>B. $y' = -\cos(2x)$</div><div>C. $y' = 2\cos(2x)$</div><div>D. $y' = -2\cos(2x)$</div>
+            <div>A. $y' = \sin(2x)$</div><div>B. $y' = -2\sin(2x)$</div><div>C. $y' = 2\sin(2x)$</div><div>D. $y' = -\sin(2x)$</div>
         </div>
     </div>
 
     <div class="question">
-        <b>Câu 6:</b> Cho hình lập phương $ABCD.A'B'C'D'$. Đường thẳng $AA'$ vuông góc với mặt phẳng nào dưới đây?
+        <b>Câu 6:</b> Cho hình chóp $S.ABCD$ có đáy là hình bình hành. Giao tuyến của hai mặt phẳng $(SAD)$ và $(SBC)$ là:
         <div class="options">
-            <div>A. $(ABB'A')$</div><div>B. $(BCC'B')$</div><div>C. $(ABCD)$</div><div>D. $(CDD'C')$</div>
+            <div>A. Đường thẳng đi qua $S$ và song song với $AD$.</div>
+            <div>B. Đường thẳng $SO$ với $O$ là tâm đáy.</div>
+            <div>C. Đường thẳng đi qua $S$ và cắt $AB$.</div>
+            <div>D. Đường thẳng $SA$.</div>
         </div>
     </div>
 
     <div class="question">
-        <b>Câu 7:</b> Thể tích của khối lăng trụ có diện tích đáy bằng $6$ và chiều cao bằng $4$ là:
+        <b>Câu 7:</b> Thể tích $V$ của khối lập phương có cạnh bằng $2a$ là:
         <div class="options">
-            <div>A. $8$</div><div>B. $24$</div><div>C. $12$</div><div>D. $10$</div>
+            <div>A. $V = 8a^3$</div><div>B. $V = 2a^3$</div><div>C. $V = 4a^3$</div><div>D. $V = a^3$</div>
         </div>
     </div>
 
     <div class="question">
-        <b>Câu 8:</b> Gieo một con xúc xắc cân đối và đồng chất 2 lần liên tiếp. Số phần tử của không gian mẫu là:
+        <b>Câu 8:</b> Một tổ có $10$ học sinh. Số cách chọn ra $2$ học sinh đi trực nhật là:
         <div class="options">
-            <div>A. $12$</div><div>B. $6$</div><div>C. $24$</div><div>D. $36$</div>
+            <div>A. $20$</div><div>B. $90$</div><div>C. $100$</div><div>D. $45$</div>
         </div>
     </div>
 
     <div class="question">
-        <b>Câu 9:</b> Cho $A$ và $B$ là hai biến cố độc lập, biết $P(A) = 0,3$ và $P(B) = 0,4$. Tính xác suất của biến cố giao $P(AB)$.
+        <b>Câu 9:</b> Cho hai biến cố độc lập $A$ và $B$. Biết $P(A) = 0,2$ và $P(B) = 0,6$. Xác suất của biến cố $AB$ là:
         <div class="options">
-            <div>A. $0,7$</div><div>B. $0,12$</div><div>C. $0,82$</div><div>D. $0,1$</div>
+            <div>A. $0,8$</div><div>B. $0,4$</div><div>C. $0,12$</div><div>D. $0,32$</div>
         </div>
     </div>
 
     <div class="question">
-        <b>Câu 10:</b> Khoảng cách từ một điểm $M$ nằm ngoài mặt phẳng $(P)$ đến mặt phẳng $(P)$ được định nghĩa là:
+        <b>Câu 10:</b> Cho hai đường thẳng phân biệt $a, b$ và mặt phẳng $(P)$. Nếu $a \perp (P)$ và $b \perp (P)$ thì:
         <div class="options">
-            <div>A. Độ dài đoạn thẳng từ $M$ đến một điểm bất kỳ trên $(P)$.</div>
-            <div>B. Độ dài hình chiếu của $M$ trên $(P)$.</div>
-            <div>C. Độ dài đoạn vuông góc hạ từ $M$ xuống mặt phẳng $(P)$.</div>
-            <div>D. Khoảng cách giữa hai đường thẳng chéo nhau.</div>
+            <div>A. $a$ và $b$ cắt nhau.</div>
+            <div>B. $a$ và $b$ song song với nhau.</div>
+            <div>C. $a$ và $b$ chéo nhau.</div>
+            <div>D. $a$ và $b$ vuông góc với nhau.</div>
         </div>
     </div>
 
@@ -173,35 +187,35 @@
     <div class="instruction">Thí sinh xét tính Đúng hoặc Sai cho mỗi ý a), b), c), d).</div>
 
     <div class="question">
-        <b>Câu 11:</b> Cho hàm số $f(x) = \frac{x+1}{x-1}$.
+        <b>Câu 11:</b> Cho hàm số $f(x) = \frac{2x - 1}{x + 1}$ có đồ thị là $(C)$.
         <table class="tf-table">
             <tr><th>Mệnh đề</th><th style="width: 70px;">Đ/S</th></tr>
-            <tr><td>a) Tập xác định của hàm số là $D = \mathbb{R} \setminus \{1\}$.</td><td></td></tr>
-            <tr><td>b) Đạo hàm của hàm số là $f'(x) = \frac{-2}{(x-1)^2}$.</td><td></td></tr>
-            <tr><td>c) Hàm số luôn đồng biến trên từng khoảng xác định.</td><td></td></tr>
-            <tr><td>d) Tiếp tuyến của đồ thị hàm số tại điểm có hoành độ $x=2$ có hệ số góc bằng $2$.</td><td></td></tr>
+            <tr><td>a) Tập xác định của hàm số là $D = \mathbb{R} \setminus \{-1\}$.</td><td></td></tr>
+            <tr><td>b) Đạo hàm của hàm số là $f'(x) = \frac{3}{(x + 1)^2}$.</td><td></td></tr>
+            <tr><td>c) Hàm số nghịch biến trên các khoảng xác định của nó.</td><td></td></tr>
+            <tr><td>d) Tiếp tuyến của đồ thị $(C)$ tại điểm có hoành độ $x=0$ có phương trình là $y = 3x - 1$.</td><td></td></tr>
         </table>
     </div>
 
     <div class="question">
-        <b>Câu 12:</b> Cho tứ diện $OABC$ có ba cạnh $OA, OB, OC$ đôi một vuông góc với nhau tại $O$.
+        <b>Câu 12:</b> Cho hình chóp $S.ABCD$ có đáy $ABCD$ là hình vuông. Cạnh bên $SA$ vuông góc với mặt phẳng đáy $(ABCD)$.
         <table class="tf-table">
             <tr><th>Mệnh đề</th><th style="width: 70px;">Đ/S</th></tr>
-            <tr><td>a) Đường thẳng $OA$ vuông góc với mặt phẳng $(OBC)$.</td><td></td></tr>
-            <tr><td>b) Đường thẳng $BC$ vuông góc với mặt phẳng $(OAB)$.</td><td></td></tr>
-            <tr><td>c) Gọi $H$ là hình chiếu vuông góc của $O$ lên mặt phẳng $(ABC)$. Khi đó $H$ là trực tâm của tam giác $ABC$.</td><td></td></tr>
-            <tr><td>d) Góc giữa hai đường thẳng $OA$ và $BC$ bằng $90^\circ$.</td><td></td></tr>
+            <tr><td>a) Đường thẳng $BC$ vuông góc với mặt phẳng $(SAB)$.</td><td></td></tr>
+            <tr><td>b) Đường thẳng $BD$ vuông góc với mặt phẳng $(SAC)$.</td><td></td></tr>
+            <tr><td>c) Góc giữa đường thẳng $SC$ và mặt phẳng đáy là góc $\widehat{SCA}$.</td><td></td></tr>
+            <tr><td>d) Mặt phẳng $(SCD)$ vuông góc với mặt phẳng $(SAD)$.</td><td></td></tr>
         </table>
     </div>
 
     <div class="question">
-        <b>Câu 13:</b> Một hộp có 4 viên bi đỏ và 5 viên bi xanh (các viên bi có kích thước giống nhau). Lấy ngẫu nhiên đồng thời 2 viên bi từ hộp.
+        <b>Câu 13:</b> Trong một hộp đựng 5 chiếc áo sơ mi trắng và 4 chiếc áo sơ mi xanh (các áo khác nhau về kích cỡ). Một người chọn ngẫu nhiên đồng thời 3 chiếc áo.
         <table class="tf-table">
             <tr><th>Mệnh đề</th><th style="width: 70px;">Đ/S</th></tr>
-            <tr><td>a) Số phần tử của không gian mẫu là $36$.</td><td></td></tr>
-            <tr><td>b) Xác suất để lấy được 2 viên bi màu đỏ là $\frac{1}{6}$.</td><td></td></tr>
-            <tr><td>c) Xác suất để lấy được 2 viên bi cùng màu là $\frac{4}{9}$.</td><td></td></tr>
-            <tr><td>d) Xác suất để lấy được ít nhất 1 viên bi xanh là $\frac{1}{6}$.</td><td></td></tr>
+            <tr><td>a) Số phần tử của không gian mẫu là $84$.</td><td></td></tr>
+            <tr><td>b) Xác suất để chọn được 3 chiếc áo màu trắng là $\frac{5}{42}$.</td><td></td></tr>
+            <tr><td>c) Xác suất để chọn được đúng 2 chiếc áo màu xanh là $\frac{5}{14}$.</td><td></td></tr>
+            <tr><td>d) Xác suất để chọn được ít nhất 1 chiếc áo màu trắng là $\frac{1}{21}$.</td><td></td></tr>
         </table>
     </div>
 
@@ -209,21 +223,77 @@
     <div class="instruction">Thí sinh tính toán và điền kết quả vào ô trống.</div>
 
     <div class="question">
-        <b>Câu 14 (Ứng dụng Đạo hàm):</b> Một quả đạn pháo được bắn lên trên không trung với phương trình quỹ đạo tính theo thời gian là $h(t) = -5t^2 + 20t + 2$, trong đó độ cao $h$ tính bằng mét và $t$ tính bằng giây ($t \ge 0$). Hỏi trong quá trình bay, quả đạn pháo đạt độ cao tối đa là bao nhiêu mét?
-        <div class="ans-box"><b>Trả lời:</b> ..................................................... mét</div>
+        <b>Câu 14 (Ứng dụng Đạo hàm - Động học):</b> Một tàu thăm dò tự hành (AUV) đang lặn xuống biển sâu. Độ sâu $h$ (tính bằng mét) của tàu so với mặt nước biển được mô phỏng bởi phương trình $h(t) = 10t + 2t^2 - \frac{1}{3}t^3$, trong đó thời gian $t$ tính bằng phút kể từ lúc bắt đầu lặn ($t > 0$). Hỏi trong quá trình lặn, vận tốc chìm sâu của tàu đạt giá trị lớn nhất là bao nhiêu mét/phút?
+        <div class="ans-box"><b>Trả lời:</b> ..................................................... m/phút</div>
     </div>
 
     <div class="question">
-        <b>Câu 15 (Ứng dụng Hàm số Mũ/Lôgarit):</b> Một người gửi tiết kiệm $100$ triệu đồng vào ngân hàng với lãi suất $6\%$/năm theo hình thức lãi kép (tiền lãi sinh ra được cộng dồn vào gốc để tính lãi cho năm tiếp theo). Hỏi sau ít nhất bao nhiêu năm người đó sẽ nhận được số tiền cả gốc lẫn lãi lớn hơn $200$ triệu đồng? (Biết lãi suất không thay đổi trong suốt kỳ hạn gửi).
-        <div class="ans-box"><b>Trả lời:</b> ..................................................... năm</div>
+        <b>Câu 15 (Ứng dụng Hàm số Mũ - Định luật làm nguội):</b> Một cốc cà phê vừa được pha xong có nhiệt độ ban đầu là $90^\circ C$. Người ta để cốc cà phê trong một căn phòng có nhiệt độ không đổi là $25^\circ C$. Theo định luật làm nguội của Newton, nhiệt độ $T$ của cốc cà phê sau $t$ phút được xác định bởi hàm số $T(t) = 25 + 65 \cdot e^{-0.05t}$. Hỏi sau khoảng bao nhiêu phút thì nhiệt độ cốc cà phê giảm xuống còn an toàn để uống là $40^\circ C$? (Làm tròn kết quả đến hàng đơn vị).
+        <div class="ans-box"><b>Trả lời:</b> ..................................................... phút</div>
     </div>
 
     <div class="question">
-        <b>Câu 16 (Ứng dụng Hình học không gian):</b> Người ta thiết kế một phần mái nhà có dạng là một khối chóp tứ giác đều. Biết đáy của khối chóp là hình vuông cạnh $8\text{ m}$ và chiều cao của khối chóp bằng $3\text{ m}$. Người ta muốn lợp ngói cho 4 mặt xung quanh của mái nhà này. Tính tổng diện tích bề mặt cần lợp ngói (tính bằng m$^2$).
-        <div class="ans-box"><b>Trả lời:</b> ..................................................... $m^2$</div>
+        <b>Câu 16 (Ứng dụng Hình học - Thể tích khối chóp):</b> Để xây dựng một trụ tháp truyền tải điện, người ta cần đúc một chân tháp bằng bê tông tươi nguyên khối có dạng hình chóp tứ giác đều (đáy là hình vuông). Biết rằng chân tháp có cạnh đáy dài $5\text{ m}$ và chiều cao từ tâm đáy đến đỉnh chóp là $6\text{ m}$. Nếu đơn giá của $1\text{ m}^3$ bê tông tươi là $1.500.000$ VNĐ, hãy tính tổng số tiền (đơn vị: triệu đồng) mà nhà thầu phải trả để mua đủ lượng bê tông đúc chân tháp trên.
+        <div class="ans-box"><b>Trả lời:</b> ..................................................... triệu đồng</div>
     </div>
 
-    <div class="end-text">--- HẾT ---</div>
+
+    <div class="solution-section">
+        <div class="solution-title">HƯỚNG DẪN GIẢI VÀ ĐÁP ÁN CHI TIẾT (ĐỀ SỐ 4)</div>
+        
+        <b>PHẦN I. TRẮC NGHIỆM</b><br>
+        <b>Câu 1: A.</b> Theo định nghĩa lũy thừa số mũ hữu tỉ: $\sqrt[n]{x^m} = x^{\frac{m}{n}} \Rightarrow \sqrt[4]{x^3} = x^{\frac{3}{4}}$.<br>
+        <b>Câu 2: B.</b> $\log_2 8 = \log_2 (2^3) = 3$.<br>
+        <b>Câu 3: C.</b> $2^{x-1} = 16 \Leftrightarrow 2^{x-1} = 2^4 \Leftrightarrow x - 1 = 4 \Leftrightarrow x = 5$.<br>
+        <b>Câu 4: B.</b> Công thức $(x^n)' = n \cdot x^{n-1} \Rightarrow (x^4)' = 4x^3$.<br>
+        <b>Câu 5: B.</b> Đạo hàm hàm hợp: $(\cos u)' = -u' \cdot \sin u \Rightarrow (\cos 2x)' = -(2x)' \sin(2x) = -2\sin(2x)$.<br>
+        <b>Câu 6: A.</b> $AD // BC \Rightarrow$ Giao tuyến của $(SAD)$ và $(SBC)$ đi qua $S$ và song song với $AD$ và $BC$.<br>
+        <b>Câu 7: A.</b> Thể tích hình lập phương: $V = (\text{cạnh})^3 = (2a)^3 = 8a^3$.<br>
+        <b>Câu 8: D.</b> Chọn 2 từ 10 học sinh (không phân biệt thứ tự): $C_{10}^2 = 45$.<br>
+        <b>Câu 9: C.</b> Hai biến cố độc lập nên $P(AB) = P(A) \cdot P(B) = 0,2 \cdot 0,6 = 0,12$.<br>
+        <b>Câu 10: B.</b> Hai đường thẳng phân biệt cùng vuông góc với một mặt phẳng thì song song với nhau.<br><br>
+
+        <b>PHẦN II. ĐÚNG/SAI</b><br>
+        <b>Câu 11:</b>
+        <br>- <b>a) ĐÚNG.</b> Mẫu $x + 1 \neq 0 \Rightarrow x \neq -1$.
+        <br>- <b>b) ĐÚNG.</b> $f'(x) = \frac{2 \cdot 1 - (-1) \cdot 1}{(x+1)^2} = \frac{3}{(x+1)^2}$.
+        <br>- <b>c) SAI.</b> Vì $f'(x) > 0, \forall x \neq -1$ nên hàm số luôn <b>đồng biến</b> trên từng khoảng xác định.
+        <br>- <b>d) ĐÚNG.</b> $f'(0) = 3; f(0) = -1$. Phương trình tiếp tuyến là $y = 3(x - 0) - 1 \Leftrightarrow y = 3x - 1$.<br>
+
+        <b>Câu 12:</b>
+        <br>- <b>a) ĐÚNG.</b> $BC \perp AB$ (đáy là hv) và $BC \perp SA \Rightarrow BC \perp (SAB)$.
+        <br>- <b>b) ĐÚNG.</b> $BD \perp AC$ (hai đchéo hv) và $BD \perp SA \Rightarrow BD \perp (SAC)$.
+        <br>- <b>c) ĐÚNG.</b> $A$ là hình chiếu của $S$ lên $(ABCD)$, nên $AC$ là hình chiếu của $SC$. Góc là $\widehat{SCA}$.
+        <br>- <b>d) ĐÚNG.</b> Ta có $CD \perp AD$ và $CD \perp SA \Rightarrow CD \perp (SAD)$. Mà $CD \subset (SCD) \Rightarrow (SCD) \perp (SAD)$.<br>
+
+        <b>Câu 13:</b>
+        <br>- <b>a) ĐÚNG.</b> Tổng có 9 áo. Số phần tử không gian mẫu là $C_9^3 = 84$.
+        <br>- <b>b) ĐÚNG.</b> Chọn 3 áo trắng: $C_5^3 = 10 \Rightarrow P = \frac{10}{84} = \frac{5}{42}$.
+        <br>- <b>c) ĐÚNG.</b> Chọn 2 áo xanh, 1 áo trắng: $C_4^2 \cdot C_5^1 = 6 \cdot 5 = 30 \Rightarrow P = \frac{30}{84} = \frac{5}{14}$.
+        <br>- <b>d) SAI.</b> Xác suất "không có áo trắng nào" (cả 3 áo xanh) là $\frac{C_4^3}{84} = \frac{4}{84} = \frac{1}{21}$. Xác suất chọn "ít nhất 1 trắng" phải là phần bù: $1 - \frac{1}{21} = \frac{20}{21}$.<br><br>
+
+        <b>PHẦN III. TRẢ LỜI NGẮN</b><br>
+        <b>Câu 14 (Đáp án: 14):</b><br>
+        Vận tốc lặn là đạo hàm của độ sâu: $v(t) = h'(t) = 10 + 4t - t^2$.<br>
+        Hàm số $v(t)$ là một parabol quay bề lõm xuống dưới, đạt giá trị lớn nhất tại hoành độ đỉnh $t = -\frac{b}{2a} = -\frac{4}{2(-1)} = 2$ (phút).<br>
+        Khi đó $v_{max} = v(2) = 10 + 4(2) - (2)^2 = 14$ (m/phút).<br>
+
+        <b>Câu 15 (Đáp án: 29):</b><br>
+        Ta cần giải phương trình: $40 = 25 + 65 \cdot e^{-0.05t}$<br>
+        $\Leftrightarrow 15 = 65 \cdot e^{-0.05t} \Leftrightarrow e^{-0.05t} = \frac{15}{65} = \frac{3}{13}$<br>
+        Lấy logarit tự nhiên hai vế: $-0.05t = \ln\left(\frac{3}{13}\right)$<br>
+        $\Leftrightarrow t = \frac{\ln(3/13)}{-0.05} \approx 29,33$.<br>
+        Làm tròn đến hàng đơn vị, ta được $29$ phút.<br>
+
+        <b>Câu 16 (Đáp án: 75):</b><br>
+        Diện tích mặt đáy hình vuông: $S = a^2 = 5^2 = 25\text{ m}^2$.<br>
+        Thể tích khối chóp: $V = \frac{1}{3} \cdot S \cdot h = \frac{1}{3} \cdot 25 \cdot 6 = 50\text{ m}^3$.<br>
+        Tổng số tiền phải trả: $50 \times 1.500.000 = 75.000.000$ (VNĐ) = $75$ triệu đồng.
+    </div>
+
+    <div style="text-align: center; margin-top: 40px; color: #7f8c8d;">
+        <i>--- Hết Đề Số 4 ---</i>
+    </div>
 </div>
 
 </body>
